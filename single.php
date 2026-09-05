@@ -1,7 +1,7 @@
 <?php
 /**
  * Single Post Template
- * @package WPNews
+ * @package HikmahNews
  */
 if (!defined('ABSPATH')) exit;
 
@@ -9,7 +9,7 @@ get_header();
 
 // Track post views
 if (is_singular()) {
-    wpnews_set_post_views(get_the_ID());
+    hikmahnews_set_post_views(get_the_ID());
 }
 ?>
 
@@ -112,7 +112,7 @@ if (is_singular()) {
                                     <path d="M2 3h6a4 4 0 014 4v14a3 3 0 00-3-3H2z"/>
                                     <path d="M22 3h-6a4 4 0 00-4 4v14a3 3 0 013-3h7z"/>
                                 </svg>
-                                <?php echo wpnews_reading_time(); ?> min read
+                                <?php echo hikmahnews_reading_time(); ?> min read
                             </span>
                             <span class="dot"></span>
                             <span>
@@ -121,7 +121,7 @@ if (is_singular()) {
                                     <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
                                     <circle cx="12" cy="12" r="3"/>
                                 </svg>
-                                <?php echo number_format(wpnews_get_post_views(get_the_ID())); ?> views
+                                <?php echo number_format(hikmahnews_get_post_views(get_the_ID())); ?> views
                             </span>
                         </div>
                     </div>
@@ -171,7 +171,7 @@ if (is_singular()) {
                         </button>
 
                         <!-- Bookmark: Save article -->
-                        <?php wpnews_bookmark_button(); ?>
+                        <?php hikmahnews_bookmark_button(); ?>
                     </div>
 
                 </div>
@@ -181,7 +181,7 @@ if (is_singular()) {
             <?php if (has_post_thumbnail()) : ?>
                 <figure class="single-featured-image">
                     <div class="container container--narrow">
-                        <?php the_post_thumbnail('wpnews-hero'); ?>
+                        <?php the_post_thumbnail('hikmahnews-hero'); ?>
                         <?php if (get_post(get_post_thumbnail_id())->post_excerpt) : ?>
                             <figcaption class="single-featured-image__caption">
                                 <?php echo esc_html(get_post(get_post_thumbnail_id())->post_excerpt); ?>

@@ -1,7 +1,7 @@
 <?php
 /**
  * Author Box
- * @package WPNews
+ * @package HikmahNews
  */
 if (!defined('ABSPATH')) exit;
 

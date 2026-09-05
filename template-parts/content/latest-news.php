@@ -1,7 +1,7 @@
 <?php
 /**
  * Latest News Grid Section
- * @package WPNews
+ * @package HikmahNews
  */
 if (!defined('ABSPATH')) exit;
 
@@ -38,9 +38,9 @@ if (!$latest_query->have_posts()) return;
                     <div class="news-card__image">
                         <a href="<?php the_permalink(); ?>">
                             <?php if (has_post_thumbnail()) : ?>
-                                <?php the_post_thumbnail('wpnews-grid'); ?>
+                                <?php the_post_thumbnail('hikmahnews-grid'); ?>
                             <?php else : ?>
-                                <img src="<?php echo esc_url(WPNEWS_URI . '/assets/images/placeholder.jpg'); ?>"
+                                <img src="<?php echo esc_url(HIKMAHNEWS_URI . '/assets/images/placeholder.jpg'); ?>"
                                      alt="<?php the_title_attribute(); ?>">
                             <?php endif; ?>
                         </a>
@@ -70,7 +70,7 @@ if (!$latest_query->have_posts()) return;
                                 <?php echo human_time_diff(get_the_time('U'), current_time('timestamp')) . ' ago'; ?>
                             </time>
                             <span class="dot"></span>
-                            <span><?php echo wpnews_reading_time(); ?> min read</span>
+                            <span><?php echo hikmahnews_reading_time(); ?> min read</span>
                         </div>
                     </div>
                 </article>
@@ -79,7 +79,7 @@ if (!$latest_query->have_posts()) return;
 
         <!-- Load More -->
         <?php
-        wpnews_load_more_button([
+        hikmahnews_load_more_button([
             'max_pages' => $latest_query->max_num_pages,
             'per_page'  => 6,
             'container' => '.latest-grid',

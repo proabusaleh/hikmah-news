@@ -1,7 +1,7 @@
 <?php
 /**
  * Main Index Template (Ultimate Fallback)
- * @package WPNews
+ * @package HikmahNews
  */
 if (!defined('ABSPATH')) exit;
 
@@ -13,7 +13,7 @@ get_header();
     <header class="archive-header">
         <div class="container">
             <h1 class="archive-header__title">
-                <?php is_home() ? esc_html_e('Latest News', 'wpnews') : the_archive_title(); ?>
+                <?php is_home() ? esc_html_e('Latest News', 'hikmahnews') : the_archive_title(); ?>
             </h1>
         </div>
     </header>
@@ -25,7 +25,7 @@ get_header();
                     <article class="news-card">
                         <div class="news-card__image">
                             <a href="<?php the_permalink(); ?>">
-                                <?php if (has_post_thumbnail()) the_post_thumbnail('wpnews-grid'); ?>
+                                <?php if (has_post_thumbnail()) the_post_thumbnail('hikmahnews-grid'); ?>
                             </a>
                         </div>
                         <div class="news-card__body">
@@ -43,7 +43,7 @@ get_header();
                         </div>
                     </article>
                 <?php endwhile; else : ?>
-                    <p><?php esc_html_e('No posts found.', 'wpnews'); ?></p>
+                    <p><?php esc_html_e('No posts found.', 'hikmahnews'); ?></p>
                 <?php endif; ?>
             </div>
 

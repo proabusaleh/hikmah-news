@@ -1,7 +1,7 @@
 <?php
 /**
  * Photo Gallery Section
- * @package WPNews
+ * @package HikmahNews
  */
 if (!defined('ABSPATH')) exit;
 
@@ -31,7 +31,7 @@ if (!$gallery_query->have_posts()) return;
                     <a href="<?php the_permalink(); ?>" class="gallery-card__link">
                         <div class="gallery-card__image">
                             <?php if (has_post_thumbnail()) : ?>
-                                <?php the_post_thumbnail('wpnews-grid'); ?>
+                                <?php the_post_thumbnail('hikmahnews-grid'); ?>
                             <?php endif; ?>
                             <div class="gallery-card__overlay">
                                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none"

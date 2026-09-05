@@ -4,42 +4,42 @@
  * - Admin meta box to mark posts as "Breaking"
  * - Custom admin column
  * - Frontend ticker + alert bar
- * @package WPNews
+ * @package HikmahNews
  */
 if (!defined('ABSPATH')) exit;
 
 // ============================================
 // 1. ADMIN META BOX
 // ============================================
-function wpnews_breaking_meta_box() {
+function hikmahnews_breaking_meta_box() {
     add_meta_box(
-        'wpnews_breaking_box',
+        'hikmahnews_breaking_box',
         '🔴 Breaking News',
-        'wpnews_breaking_meta_callback',
+        'hikmahnews_breaking_meta_callback',
         'post',
         'side',
         'high'
     );
 }
-add_action('add_meta_boxes', 'wpnews_breaking_meta_box');
+add_action('add_meta_boxes', 'hikmahnews_breaking_meta_box');
 
-function wpnews_breaking_meta_callback($post) {
-    wp_nonce_field('wpnews_breaking_nonce', 'wpnews_breaking_nonce_field');
-    $is_breaking = get_post_meta($post->ID, '_wpnews_breaking', true);
-    $breaking_priority = get_post_meta($post->ID, '_wpnews_breaking_priority', true) ?: 'normal';
-    $breaking_expiry = get_post_meta($post->ID, '_wpnews_breaking_expiry', true);
+function hikmahnews_breaking_meta_callback($post) {
+    wp_nonce_field('hikmahnews_breaking_nonce', 'hikmahnews_breaking_nonce_field');
+    $is_breaking = get_post_meta($post->ID, '_hikmahnews_breaking', true);
+    $breaking_priority = get_post_meta($post->ID, '_hikmahnews_breaking_priority', true) ?: 'normal';
+    $breaking_expiry = get_post_meta($post->ID, '_hikmahnews_breaking_expiry', true);
     ?>
-    <div class="wpnews-breaking-admin">
+    <div class="hikmahnews-breaking-admin">
         <p>
             <label>
-                <input type="checkbox" name="wpnews_is_breaking" value="1"
+                <input type="checkbox" name="hikmahnews_is_breaking" value="1"
                        <?php checked($is_breaking, '1'); ?>>
                 <strong>Mark as Breaking News</strong>
             </label>
         </p>
         <p>
             <label>Priority:</label>
-            <select name="wpnews_breaking_priority" style="width:100%;">
+            <select name="hikmahnews_breaking_priority" style="width:100%;">
                 <option value="normal" <?php selected($breaking_priority, 'normal'); ?>>Normal</option>
                 <option value="high" <?php selected($breaking_priority, 'high'); ?>>🔥 High</option>
                 <option value="urgent" <?php selected($breaking_priority, 'urgent'); ?>>🚨 Urgent</option>
@@ -47,7 +47,7 @@ function wpnews_breaking_meta_callback($post) {
         </p>
         <p>
             <label>Expiry Date (optional):</label>
-            <input type="datetime-local" name="wpnews_breaking_expiry"
+            <input type="datetime-local" name="hikmahnews_breaking_expiry"
                    value="<?php echo esc_attr($breaking_expiry); ?>" style="width:100%;">
             <small>Leave empty for no expiry.</small>
         </p>
@@ -55,32 +55,32 @@ function wpnews_breaking_meta_callback($post) {
     <?php
 }
 
-function wpnews_save_breaking_meta($post_id) {
-    if (!isset($_POST['wpnews_breaking_nonce_field']) ||
-        !wp_verify_nonce($_POST['wpnews_breaking_nonce_field'], 'wpnews_breaking_nonce')) {
+function hikmahnews_save_breaking_meta($post_id) {
+    if (!isset($_POST['hikmahnews_breaking_nonce_field']) ||
+        !wp_verify_nonce($_POST['hikmahnews_breaking_nonce_field'], 'hikmahnews_breaking_nonce')) {
         return;
     }
     if (defined('DOING_AUTOSAVE') && DOING_AUTOSAVE) return;
     if (!current_user_can('edit_post', $post_id)) return;
 
     // Breaking status
-    $is_breaking = isset($_POST['wpnews_is_breaking']) ? '1' : '0';
-    update_post_meta($post_id, '_wpnews_breaking', $is_breaking);
+    $is_breaking = isset($_POST['hikmahnews_is_breaking']) ? '1' : '0';
+    update_post_meta($post_id, '_hikmahnews_breaking', $is_breaking);
 
     // Priority
-    $priority = sanitize_text_field($_POST['wpnews_breaking_priority'] ?? 'normal');
-    update_post_meta($post_id, '_wpnews_breaking_priority', $priority);
+    $priority = sanitize_text_field($_POST['hikmahnews_breaking_priority'] ?? 'normal');
+    update_post_meta($post_id, '_hikmahnews_breaking_priority', $priority);
 
     // Expiry
-    $expiry = sanitize_text_field($_POST['wpnews_breaking_expiry'] ?? '');
-    update_post_meta($post_id, '_wpnews_breaking_expiry', $expiry);
+    $expiry = sanitize_text_field($_POST['hikmahnews_breaking_expiry'] ?? '');
+    update_post_meta($post_id, '_hikmahnews_breaking_expiry', $expiry);
 }
-add_action('save_post', 'wpnews_save_breaking_meta');
+add_action('save_post', 'hikmahnews_save_breaking_meta');
 
 // ============================================
 // 2. ADMIN COLUMN
 // ============================================
-function wpnews_breaking_admin_columns($columns) {
+function hikmahnews_breaking_admin_columns($columns) {
     $new = [];
     foreach ($columns as $key => $val) {
         $new[$key] = $val;
@@ -90,12 +90,12 @@ function wpnews_breaking_admin_columns($columns) {
     }
     return $new;
 }
-add_filter('manage_posts_columns', 'wpnews_breaking_admin_columns');
+add_filter('manage_posts_columns', 'hikmahnews_breaking_admin_columns');
 
-function wpnews_breaking_admin_column_data($column, $post_id) {
+function hikmahnews_breaking_admin_column_data($column, $post_id) {
     if ($column === 'breaking') {
-        $is_breaking = get_post_meta($post_id, '_wpnews_breaking', true);
-        $priority = get_post_meta($post_id, '_wpnews_breaking_priority', true);
+        $is_breaking = get_post_meta($post_id, '_hikmahnews_breaking', true);
+        $priority = get_post_meta($post_id, '_hikmahnews_breaking_priority', true);
 
         if ($is_breaking === '1') {
             $colors = ['normal' => '#F59E0B', 'high' => '#EF4444', 'urgent' => '#DC2626'];
@@ -109,18 +109,18 @@ function wpnews_breaking_admin_column_data($column, $post_id) {
         }
     }
 }
-add_action('manage_posts_custom_column', 'wpnews_breaking_admin_column_data', 10, 2);
+add_action('manage_posts_custom_column', 'hikmahnews_breaking_admin_column_data', 10, 2);
 
 // ============================================
 // 3. HELPER: Get Active Breaking Posts
 // ============================================
-function wpnews_get_breaking_posts($count = 8) {
+function hikmahnews_get_breaking_posts($count = 8) {
     $args = [
         'post_type'      => 'post',
         'posts_per_page' => $count,
         'meta_query'     => [
             [
-                'key'   => '_wpnews_breaking',
+                'key'   => '_hikmahnews_breaking',
                 'value' => '1',
             ],
         ],
@@ -134,7 +134,7 @@ function wpnews_get_breaking_posts($count = 8) {
     // Filter out expired
     $active = [];
     foreach ($posts as $post) {
-        $expiry = get_post_meta($post->ID, '_wpnews_breaking_expiry', true);
+        $expiry = get_post_meta($post->ID, '_hikmahnews_breaking_expiry', true);
         if ($expiry && strtotime($expiry) < current_time('timestamp')) {
             continue; // Expired
         }
@@ -147,12 +147,12 @@ function wpnews_get_breaking_posts($count = 8) {
 // ============================================
 // 4. FRONTEND: Breaking News Alert Bar
 // ============================================
-function wpnews_breaking_alert_bar() {
-    $breaking = wpnews_get_breaking_posts(1);
+function hikmahnews_breaking_alert_bar() {
+    $breaking = hikmahnews_get_breaking_posts(1);
     if (empty($breaking)) return;
 
     $post = $breaking[0];
-    $priority = get_post_meta($post->ID, '_wpnews_breaking_priority', true);
+    $priority = get_post_meta($post->ID, '_hikmahnews_breaking_priority', true);
     $bg_colors = [
         'normal' => '#DC2626',
         'high'   => '#B91C1C',
@@ -183,13 +183,13 @@ function wpnews_breaking_alert_bar() {
     </div>
     <?php
 }
-add_action('wp_body_open', 'wpnews_breaking_alert_bar');
+add_action('wp_body_open', 'hikmahnews_breaking_alert_bar');
 
 // ============================================
 // 5. FRONTEND: Breaking News Ticker (Enhanced)
 // ============================================
-function wpnews_breaking_ticker() {
-    $breaking = wpnews_get_breaking_posts(6);
+function hikmahnews_breaking_ticker() {
+    $breaking = hikmahnews_get_breaking_posts(6);
     if (empty($breaking)) return;
     ?>
     <div class="breaking-ticker">

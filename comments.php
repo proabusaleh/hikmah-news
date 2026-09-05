@@ -1,7 +1,7 @@
 <?php
 /**
  * Comments Template
- * @package WPNews
+ * @package HikmahNews
  */
 if (!defined('ABSPATH')) exit;
 
@@ -28,7 +28,7 @@ if (post_password_required()) return;
                     'style'       => 'ol',
                     'short_ping'  => true,
                     'avatar_size' => 48,
-                    'callback'    => 'wpnews_comment_callback',
+                    'callback'    => 'hikmahnews_comment_callback',
                 ]);
                 ?>
             </ol>

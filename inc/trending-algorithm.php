@@ -5,19 +5,19 @@
  * - Recalculates every hour via WP-Cron
  * - Stores trending score as post meta
  * - Provides "Trending Now" query
- * @package WPNews
+ * @package HikmahNews
  */
 if (!defined('ABSPATH')) exit;
 
 // ============================================
 // 1. TRENDING SCORE CALCULATOR
 // ============================================
-function wpnews_calculate_trending_score($post_id) {
+function hikmahnews_calculate_trending_score($post_id) {
     $post = get_post($post_id);
     if (!$post || $post->post_status !== 'publish') return 0;
 
     // --- VIEWS (normalized) ---
-    $views = (int) get_post_meta($post_id, '_wpnews_views', true);
+    $views = (int) get_post_meta($post_id, '_hikmahnews_views', true);
     $views_score = min($views / 100, 100); // 10K views = max score
 
     // --- COMMENTS ---
@@ -29,7 +29,7 @@ function wpnews_calculate_trending_score($post_id) {
     $recency_score = max(0, 100 - ($hours_old * 1.5)); // Decays over ~67 hours
 
     // --- SOCIAL SHARES (simulated from meta) ---
-    $shares = (int) get_post_meta($post_id, '_wpnews_shares', true);
+    $shares = (int) get_post_meta($post_id, '_hikmahnews_shares', true);
     $shares_score = min($shares * 2, 100);
 
     // --- WEIGHTED TOTAL ---
@@ -46,7 +46,7 @@ function wpnews_calculate_trending_score($post_id) {
 // ============================================
 // 2. RECALCULATE ALL TRENDING SCORES (Cron)
 // ============================================
-function wpnews_recalculate_trending() {
+function hikmahnews_recalculate_trending() {
     $posts = get_posts([
         'post_type'      => 'post',
         'posts_per_page' => 200,
@@ -59,44 +59,44 @@ function wpnews_recalculate_trending() {
     ]);
 
     foreach ($posts as $post_id) {
-        $score = wpnews_calculate_trending_score($post_id);
-        update_post_meta($post_id, '_wpnews_trending_score', $score);
+        $score = hikmahnews_calculate_trending_score($post_id);
+        update_post_meta($post_id, '_hikmahnews_trending_score', $score);
     }
 
     // Log last calculation
-    update_option('wpnews_trending_last_run', current_time('mysql'));
+    update_option('hikmahnews_trending_last_run', current_time('mysql'));
 }
 
 // Schedule hourly
-if (!wp_next_scheduled('wpnews_hourly_trending')) {
-    wp_schedule_event(time(), 'hourly', 'wpnews_hourly_trending');
+if (!wp_next_scheduled('hikmahnews_hourly_trending')) {
+    wp_schedule_event(time(), 'hourly', 'hikmahnews_hourly_trending');
 }
-add_action('wpnews_hourly_trending', 'wpnews_recalculate_trending');
+add_action('hikmahnews_hourly_trending', 'hikmahnews_recalculate_trending');
 
 // Also recalculate on save (for the specific post)
-function wpnews_update_single_trending($post_id) {
+function hikmahnews_update_single_trending($post_id) {
     if (get_post_type($post_id) !== 'post') return;
     if (wp_is_post_revision($post_id) || wp_is_post_autosave($post_id)) return;
 
-    $score = wpnews_calculate_trending_score($post_id);
-    update_post_meta($post_id, '_wpnews_trending_score', $score);
+    $score = hikmahnews_calculate_trending_score($post_id);
+    update_post_meta($post_id, '_hikmahnews_trending_score', $score);
 }
-add_action('save_post', 'wpnews_update_single_trending', 20);
+add_action('save_post', 'hikmahnews_update_single_trending', 20);
 add_action('comment_post', function($comment_id) {
     $comment = get_comment($comment_id);
     if ($comment && $comment->comment_post_ID) {
-        wpnews_update_single_trending($comment->comment_post_ID);
+        hikmahnews_update_single_trending($comment->comment_post_ID);
     }
 });
 
 // ============================================
 // 3. GET TRENDING POSTS (Query Helper)
 // ============================================
-function wpnews_get_trending_posts($count = 10, $hours = 72) {
+function hikmahnews_get_trending_posts($count = 10, $hours = 72) {
     return get_posts([
         'post_type'      => 'post',
         'posts_per_page' => $count,
-        'meta_key'       => '_wpnews_trending_score',
+        'meta_key'       => '_hikmahnews_trending_score',
         'orderby'        => 'meta_value_num',
         'order'          => 'DESC',
         'date_query'     => [
@@ -109,14 +109,14 @@ function wpnews_get_trending_posts($count = 10, $hours = 72) {
 // ============================================
 // 4. TRENDING BADGE (Auto for top 5)
 // ============================================
-function wpnews_trending_badge($post_id = null) {
+function hikmahnews_trending_badge($post_id = null) {
     if (!$post_id) $post_id = get_the_ID();
 
-    $score = (float) get_post_meta($post_id, '_wpnews_trending_score', true);
+    $score = (float) get_post_meta($post_id, '_hikmahnews_trending_score', true);
     if ($score < 20) return ''; // Threshold
 
     // Check if in top 5
-    $trending = wpnews_get_trending_posts(5);
+    $trending = hikmahnews_get_trending_posts(5);
     $trending_ids = wp_list_pluck($trending, 'ID');
 
     if (!in_array($post_id, $trending_ids)) return '';
@@ -131,8 +131,8 @@ function wpnews_trending_badge($post_id = null) {
 // ============================================
 // 5. TRENDING SECTION (Enhanced Frontend)
 // ============================================
-function wpnews_trending_section() {
-    $trending = wpnews_get_trending_posts(6, 48);
+function hikmahnews_trending_section() {
+    $trending = hikmahnews_get_trending_posts(6, 48);
     if (empty($trending)) return;
     ?>
     <section class="trending-section">
@@ -144,7 +144,7 @@ function wpnews_trending_section() {
                 </h2>
                 <span class="trending-updated">
                     Updated <?php
-                    $last = get_option('wpnews_trending_last_run');
+                    $last = get_option('hikmahnews_trending_last_run');
                     echo $last ? human_time_diff(strtotime($last), current_time('timestamp')) . ' ago' : 'just now';
                     ?>
                 </span>
@@ -155,7 +155,7 @@ function wpnews_trending_section() {
                 <?php
                 $rank = 1;
                 foreach ($trending as $post) : setup_postdata($post);
-                    $score = get_post_meta($post->ID, '_wpnews_trending_score', true);
+                    $score = get_post_meta($post->ID, '_hikmahnews_trending_score', true);
                 ?>
                     <article class="trending-card <?php echo $rank <= 3 ? 'trending-card--top' : ''; ?>">
                         <a href="<?php the_permalink(); ?>" class="trending-card__link">
@@ -163,7 +163,7 @@ function wpnews_trending_section() {
                                 <?php echo str_pad($rank, 2, '0', STR_PAD_LEFT); ?>
                             </span>
                             <div class="trending-card__image">
-                                <?php if (has_post_thumbnail()) the_post_thumbnail('wpnews-thumb'); ?>
+                                <?php if (has_post_thumbnail()) the_post_thumbnail('hikmahnews-thumb'); ?>
                             </div>
                             <div class="trending-card__content">
                                 <?php
@@ -176,7 +176,7 @@ function wpnews_trending_section() {
                                 <?php endif; ?>
                                 <h3 class="trending-card__title"><?php the_title(); ?></h3>
                                 <div class="trending-card__meta">
-                                    <span>👁 <?php echo wpnews_get_formatted_views(); ?></span>
+                                    <span>👁 <?php echo hikmahnews_get_formatted_views(); ?></span>
                                     <span class="dot"></span>
                                     <span>💬 <?php echo get_comments_number(); ?></span>
                                     <span class="dot"></span>

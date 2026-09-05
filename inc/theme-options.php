@@ -1,109 +1,109 @@
 <?php
 /**
  * Theme Customizer Options
- * @package WPNews
+ * @package HikmahNews
  */
 if (!defined('ABSPATH')) exit;
 
-function wpnews_customize_register($wp_customize) {
+function hikmahnews_customize_register($wp_customize) {
 
     // ==========================================
     // PANEL: Theme Options
     // ==========================================
-    $wp_customize->add_panel('wpnews_options', [
-        'title'    => __('WP News Options', 'wpnews'),
+    $wp_customize->add_panel('hikmahnews_options', [
+        'title'    => __('Hikmah News Options', 'hikmahnews'),
         'priority' => 30,
     ]);
 
     // ==========================================
     // SECTION: Colors
     // ==========================================
-    $wp_customize->add_section('wpnews_colors', [
-        'title' => __('Colors', 'wpnews'),
-        'panel' => 'wpnews_options',
+    $wp_customize->add_section('hikmahnews_colors', [
+        'title' => __('Colors', 'hikmahnews'),
+        'panel' => 'hikmahnews_options',
     ]);
 
-    $wp_customize->add_setting('wpnews_primary_color', [
+    $wp_customize->add_setting('hikmahnews_primary_color', [
         'default'           => '#DC2626',
         'sanitize_callback' => 'sanitize_hex_color',
     ]);
 
-    $wp_customize->add_control(new WP_Customize_Color_Control($wp_customize, 'wpnews_primary_color', [
-        'label'   => __('Primary Color', 'wpnews'),
-        'section' => 'wpnews_colors',
+    $wp_customize->add_control(new WP_Customize_Color_Control($wp_customize, 'hikmahnews_primary_color', [
+        'label'   => __('Primary Color', 'hikmahnews'),
+        'section' => 'hikmahnews_colors',
     ]));
 
-    $wp_customize->add_setting('wpnews_secondary_color', [
+    $wp_customize->add_setting('hikmahnews_secondary_color', [
         'default'           => '#1E3A5F',
         'sanitize_callback' => 'sanitize_hex_color',
     ]);
 
-    $wp_customize->add_control(new WP_Customize_Color_Control($wp_customize, 'wpnews_secondary_color', [
-        'label'   => __('Secondary Color', 'wpnews'),
-        'section' => 'wpnews_colors',
+    $wp_customize->add_control(new WP_Customize_Color_Control($wp_customize, 'hikmahnews_secondary_color', [
+        'label'   => __('Secondary Color', 'hikmahnews'),
+        'section' => 'hikmahnews_colors',
     ]));
 
     // ==========================================
     // SECTION: Homepage
     // ==========================================
-    $wp_customize->add_section('wpnews_homepage', [
-        'title' => __('Homepage Settings', 'wpnews'),
-        'panel' => 'wpnews_options',
+    $wp_customize->add_section('hikmahnews_homepage', [
+        'title' => __('Homepage Settings', 'hikmahnews'),
+        'panel' => 'hikmahnews_options',
     ]);
 
-    $wp_customize->add_setting('wpnews_hero_posts_count', [
+    $wp_customize->add_setting('hikmahnews_hero_posts_count', [
         'default'           => 4,
         'sanitize_callback' => 'absint',
     ]);
 
-    $wp_customize->add_control('wpnews_hero_posts_count', [
-        'label'   => __('Hero Sidebar Posts Count', 'wpnews'),
-        'section' => 'wpnews_homepage',
+    $wp_customize->add_control('hikmahnews_hero_posts_count', [
+        'label'   => __('Hero Sidebar Posts Count', 'hikmahnews'),
+        'section' => 'hikmahnews_homepage',
         'type'    => 'number',
         'input_attrs' => ['min' => 2, 'max' => 6],
     ]);
 
-    $wp_customize->add_setting('wpnews_show_video_section', [
+    $wp_customize->add_setting('hikmahnews_show_video_section', [
         'default'           => true,
-        'sanitize_callback' => 'wpnews_sanitize_checkbox',
+        'sanitize_callback' => 'hikmahnews_sanitize_checkbox',
     ]);
 
-    $wp_customize->add_control('wpnews_show_video_section', [
-        'label'   => __('Show Video Section', 'wpnews'),
-        'section' => 'wpnews_homepage',
+    $wp_customize->add_control('hikmahnews_show_video_section', [
+        'label'   => __('Show Video Section', 'hikmahnews'),
+        'section' => 'hikmahnews_homepage',
         'type'    => 'checkbox',
     ]);
 
-    $wp_customize->add_setting('wpnews_show_gallery_section', [
+    $wp_customize->add_setting('hikmahnews_show_gallery_section', [
         'default'           => true,
-        'sanitize_callback' => 'wpnews_sanitize_checkbox',
+        'sanitize_callback' => 'hikmahnews_sanitize_checkbox',
     ]);
 
-    $wp_customize->add_control('wpnews_show_gallery_section', [
-        'label'   => __('Show Gallery Section', 'wpnews'),
-        'section' => 'wpnews_homepage',
+    $wp_customize->add_control('hikmahnews_show_gallery_section', [
+        'label'   => __('Show Gallery Section', 'hikmahnews'),
+        'section' => 'hikmahnews_homepage',
         'type'    => 'checkbox',
     ]);
 
     // ==========================================
     // SECTION: Social Links
     // ==========================================
-    $wp_customize->add_section('wpnews_social', [
-        'title' => __('Social Links', 'wpnews'),
-        'panel' => 'wpnews_options',
+    $wp_customize->add_section('hikmahnews_social', [
+        'title' => __('Social Links', 'hikmahnews'),
+        'panel' => 'hikmahnews_options',
     ]);
 
     $socials = ['facebook', 'twitter', 'instagram', 'youtube', 'linkedin'];
 
     foreach ($socials as $social) {
-        $wp_customize->add_setting("wpnews_social_{$social}", [
+        $wp_customize->add_setting("hikmahnews_social_{$social}", [
             'default'           => '',
             'sanitize_callback' => 'esc_url_raw',
         ]);
 
-        $wp_customize->add_control("wpnews_social_{$social}", [
+        $wp_customize->add_control("hikmahnews_social_{$social}", [
             'label'   => ucfirst($social) . ' URL',
-            'section' => 'wpnews_social',
+            'section' => 'hikmahnews_social',
             'type'    => 'url',
         ]);
     }
@@ -111,39 +111,39 @@ function wpnews_customize_register($wp_customize) {
     // ==========================================
     // SECTION: Footer
     // ==========================================
-    $wp_customize->add_section('wpnews_footer', [
-        'title' => __('Footer Settings', 'wpnews'),
-        'panel' => 'wpnews_options',
+    $wp_customize->add_section('hikmahnews_footer', [
+        'title' => __('Footer Settings', 'hikmahnews'),
+        'panel' => 'hikmahnews_options',
     ]);
 
-    $wp_customize->add_setting('wpnews_footer_text', [
+    $wp_customize->add_setting('hikmahnews_footer_text', [
         'default'           => 'All rights reserved.',
         'sanitize_callback' => 'sanitize_text_field',
     ]);
 
-    $wp_customize->add_control('wpnews_footer_text', [
-        'label'   => __('Footer Copyright Text', 'wpnews'),
-        'section' => 'wpnews_footer',
+    $wp_customize->add_control('hikmahnews_footer_text', [
+        'label'   => __('Footer Copyright Text', 'hikmahnews'),
+        'section' => 'hikmahnews_footer',
         'type'    => 'text',
     ]);
 }
-add_action('customize_register', 'wpnews_customize_register');
+add_action('customize_register', 'hikmahnews_customize_register');
 
 // Sanitize checkbox
-function wpnews_sanitize_checkbox($checked) {
+function hikmahnews_sanitize_checkbox($checked) {
     return (bool) $checked;
 }
 
 // ==========================================
 // OUTPUT CUSTOM CSS
 // ==========================================
-function wpnews_custom_css_output() {
-    $primary = get_theme_mod('wpnews_primary_color', '#DC2626');
-    $secondary = get_theme_mod('wpnews_secondary_color', '#1E3A5F');
+function hikmahnews_custom_css_output() {
+    $primary = get_theme_mod('hikmahnews_primary_color', '#DC2626');
+    $secondary = get_theme_mod('hikmahnews_secondary_color', '#1E3A5F');
 
     if ($primary !== '#DC2626' || $secondary !== '#1E3A5F') :
 ?>
-    <style id="wpnews-custom-css">
+    <style id="hikmahnews-custom-css">
         :root {
             --color-primary: <?php echo esc_attr($primary); ?>;
             --color-secondary: <?php echo esc_attr($secondary); ?>;
@@ -152,4 +152,4 @@ function wpnews_custom_css_output() {
 <?php
     endif;
 }
-add_action('wp_head', 'wpnews_custom_css_output', 50);
+add_action('wp_head', 'hikmahnews_custom_css_output', 50);

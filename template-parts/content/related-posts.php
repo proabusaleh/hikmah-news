@@ -1,7 +1,7 @@
 <?php
 /**
  * Related Posts Section
- * @package WPNews
+ * @package HikmahNews
  */
 if (!defined('ABSPATH')) exit;
 
@@ -36,7 +36,7 @@ if (!$related_query->have_posts()) return;
                     <div class="news-card__image">
                         <a href="<?php the_permalink(); ?>">
                             <?php if (has_post_thumbnail()) : ?>
-                                <?php the_post_thumbnail('wpnews-grid'); ?>
+                                <?php the_post_thumbnail('hikmahnews-grid'); ?>
                             <?php endif; ?>
                         </a>
                     </div>

@@ -1,14 +1,14 @@
 <?php
 /**
  * Helper Functions
- * @package WPNews
+ * @package HikmahNews
  */
 if (!defined('ABSPATH')) exit;
 
 /**
  * Calculate reading time in minutes
  */
-function wpnews_reading_time($post_id = null) {
+function hikmahnews_reading_time($post_id = null) {
     if (!$post_id) $post_id = get_the_ID();
     $content = get_post_field('post_content', $post_id);
     $word_count = str_word_count(strip_tags($content));
@@ -19,23 +19,23 @@ function wpnews_reading_time($post_id = null) {
 /**
  * Get post view count (simple implementation)
  */
-function wpnews_get_post_views($post_id) {
-    $count = get_post_meta($post_id, 'wpnews_views', true);
+function hikmahnews_get_post_views($post_id) {
+    $count = get_post_meta($post_id, 'hikmahnews_views', true);
     return $count ? (int)$count : 0;
 }
 
 /**
  * Set post view count
  */
-function wpnews_set_post_views($post_id) {
-    $count = wpnews_get_post_views($post_id);
-    update_post_meta($post_id, 'wpnews_views', $count + 1);
+function hikmahnews_set_post_views($post_id) {
+    $count = hikmahnews_get_post_views($post_id);
+    update_post_meta($post_id, 'hikmahnews_views', $count + 1);
 }
 
 /**
  * Fallback menu
  */
-function wpnews_fallback_menu() {
+function hikmahnews_fallback_menu() {
     echo '<ul class="main-nav__list">';
     echo '<li><a href="' . esc_url(home_url('/')) . '">Home</a></li>';
     $pages = get_pages(['number' => 5, 'sort_column' => 'menu_order']);
@@ -49,7 +49,7 @@ function wpnews_fallback_menu() {
 /**
  * Custom comment callback
  */
-function wpnews_comment_callback($comment, $args, $depth) {
+function hikmahnews_comment_callback($comment, $args, $depth) {
     $tag = ($args['style'] === 'div') ? 'div' : 'li';
 ?>
     <<?php echo $tag; ?> id="comment-<?php comment_ID(); ?>" <?php comment_class('comment-item'); ?>>

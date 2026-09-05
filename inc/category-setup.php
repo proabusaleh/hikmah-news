@@ -4,14 +4,14 @@
  * - Auto-creates category tree on theme activation
  * - Parent → Child structure
  * - Category metadata (color, icon, layout, order)
- * @package WPNews
+ * @package HikmahNews
  */
 if (!defined('ABSPATH')) exit;
 
 // ============================================
 // 1. CATEGORY STRUCTURE DEFINITION
 // ============================================
-function wpnews_category_structure() {
+function hikmahnews_category_structure() {
     return [
         'politics' => [
             'name'        => 'Politics',
@@ -164,9 +164,9 @@ function wpnews_category_structure() {
 // ============================================
 // 2. AUTO-CREATE CATEGORIES ON ACTIVATION
 // ============================================
-function wpnews_create_categories() {
-    $structure = wpnews_category_structure();
-    $created = get_option('wpnews_categories_created', false);
+function hikmahnews_create_categories() {
+    $structure = hikmahnews_category_structure();
+    $created = get_option('hikmahnews_categories_created', false);
 
     if ($created) return;
 
@@ -190,7 +190,7 @@ function wpnews_create_categories() {
         $parent_id = is_array($parent_term) ? $parent_term['term_id'] : $parent_term;
 
         // Save parent meta
-        wpnews_save_category_meta($parent_id, $parent_data);
+        hikmahnews_save_category_meta($parent_id, $parent_data);
 
         // Create children
         if (!empty($parent_data['children'])) {
@@ -212,71 +212,71 @@ function wpnews_create_categories() {
                 if (is_wp_error($child_term)) continue;
 
                 $child_id = is_array($child_term) ? $child_term['term_id'] : $child_term;
-                wpnews_save_category_meta($child_id, $child_data);
+                hikmahnews_save_category_meta($child_id, $child_data);
             }
         }
     }
 
-    update_option('wpnews_categories_created', true);
+    update_option('hikmahnews_categories_created', true);
 }
-add_action('after_switch_theme', 'wpnews_create_categories');
+add_action('after_switch_theme', 'hikmahnews_create_categories');
 
 // Also provide manual trigger via admin
-function wpnews_manual_category_setup() {
-    if (isset($_GET['wpnews_setup_cats']) && current_user_can('manage_options')) {
-        check_admin_referer('wpnews_setup');
-        delete_option('wpnews_categories_created');
-        wpnews_create_categories();
+function hikmahnews_manual_category_setup() {
+    if (isset($_GET['hikmahnews_setup_cats']) && current_user_can('manage_options')) {
+        check_admin_referer('hikmahnews_setup');
+        delete_option('hikmahnews_categories_created');
+        hikmahnews_create_categories();
         wp_redirect(admin_url('edit-tags.php?taxonomy=category&setup=done'));
         exit;
     }
 }
-add_action('admin_init', 'wpnews_manual_category_setup');
+add_action('admin_init', 'hikmahnews_manual_category_setup');
 
 // ============================================
 // 3. SAVE CATEGORY META HELPER
 // ============================================
-function wpnews_save_category_meta($term_id, $data) {
-    if (isset($data['color'])) update_term_meta($term_id, 'wpnews_color', $data['color']);
-    if (isset($data['icon'])) update_term_meta($term_id, 'wpnews_icon', $data['icon']);
-    if (isset($data['layout'])) update_term_meta($term_id, 'wpnews_layout', $data['layout']);
+function hikmahnews_save_category_meta($term_id, $data) {
+    if (isset($data['color'])) update_term_meta($term_id, 'hikmahnews_color', $data['color']);
+    if (isset($data['icon'])) update_term_meta($term_id, 'hikmahnews_icon', $data['icon']);
+    if (isset($data['layout'])) update_term_meta($term_id, 'hikmahnews_layout', $data['layout']);
 }
 
 // ============================================
 // 4. GET CATEGORY META HELPERS
 // ============================================
-function wpnews_get_category_color($term_id = null) {
+function hikmahnews_get_category_color($term_id = null) {
     if (!$term_id) {
         $cats = get_the_category();
         if (!$cats) return 'var(--color-primary)';
         $term_id = $cats[0]->term_id;
     }
-    $color = get_term_meta($term_id, 'wpnews_color', true);
+    $color = get_term_meta($term_id, 'hikmahnews_color', true);
     return $color ?: 'var(--color-primary)';
 }
 
-function wpnews_get_category_icon($term_id = null) {
+function hikmahnews_get_category_icon($term_id = null) {
     if (!$term_id) {
         $cats = get_the_category();
         if (!$cats) return '📰';
         $term_id = $cats[0]->term_id;
     }
-    $icon = get_term_meta($term_id, 'wpnews_icon', true);
+    $icon = get_term_meta($term_id, 'hikmahnews_icon', true);
     return $icon ?: '📰';
 }
 
-function wpnews_get_category_layout($term_id) {
-    $layout = get_term_meta($term_id, 'wpnews_layout', true);
+function hikmahnews_get_category_layout($term_id) {
+    $layout = get_term_meta($term_id, 'hikmahnews_layout', true);
     return $layout ?: 'standard';
 }
 
 // ============================================
 // 5. ADMIN NOTICE
 // ============================================
-function wpnews_category_setup_notice() {
+function hikmahnews_category_setup_notice() {
     if (isset($_GET['setup']) && $_GET['setup'] === 'done') {
         echo '<div class="notice notice-success is-dismissible">
-              <p>✅ WP News categories created successfully!</p></div>';
+              <p>✅ Hikmah News categories created successfully!</p></div>';
     }
 }
-add_action('admin_notices', 'wpnews_category_setup_notice');
+add_action('admin_notices', 'hikmahnews_category_setup_notice');

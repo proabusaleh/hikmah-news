@@ -1,7 +1,7 @@
 <?php
 /**
  * Main Navigation
- * @package WPNews
+ * @package HikmahNews
  */
 if (!defined('ABSPATH')) exit;
 ?>
@@ -9,7 +9,7 @@ if (!defined('ABSPATH')) exit;
 <nav class="main-nav" id="mainNav">
     <div class="container main-nav__inner">
 
-        <?php wpnews_mega_menu_nav(); ?>
+        <?php hikmahnews_mega_menu_nav(); ?>
 
         <!-- Trending Tag -->
         <div class="main-nav__trending">

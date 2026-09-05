@@ -1,6 +1,6 @@
 /**
- * WP News Theme — Main JavaScript
- * @package WPNews
+ * Hikmah News Theme — Main JavaScript
+ * @package HikmahNews
  */
 document.addEventListener('DOMContentLoaded', function () {
 
@@ -9,7 +9,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const html = document.documentElement;
 
     // Check saved preference
-    if (localStorage.getItem('wpnews-dark') === 'true') {
+    if (localStorage.getItem('hikmahnews-dark') === 'true') {
         html.classList.add('dark-mode');
     }
 
@@ -17,7 +17,7 @@ document.addEventListener('DOMContentLoaded', function () {
         darkToggle.addEventListener('click', () => {
             html.classList.toggle('dark-mode');
             localStorage.setItem(
-                'wpnews-dark',
+                'hikmahnews-dark',
                 html.classList.contains('dark-mode')
             );
         });

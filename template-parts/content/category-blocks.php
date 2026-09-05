@@ -1,7 +1,7 @@
 <?php
 /**
  * Category Blocks — Politics, Sports, Technology, Business
- * @package WPNews
+ * @package HikmahNews
  */
 if (!defined('ABSPATH')) exit;
 
@@ -58,7 +58,7 @@ foreach ($block_categories as $cat_slug) :
                 <a href="<?php the_permalink(); ?>" class="cat-block-featured__link">
                     <div class="cat-block-featured__image">
                         <?php if (has_post_thumbnail()) : ?>
-                            <?php the_post_thumbnail('wpnews-grid'); ?>
+                            <?php the_post_thumbnail('hikmahnews-grid'); ?>
                         <?php endif; ?>
                         <div class="cat-block-featured__overlay"></div>
                     </div>
@@ -85,7 +85,7 @@ foreach ($block_categories as $cat_slug) :
                         <div class="news-list-card__image">
                             <a href="<?php the_permalink(); ?>">
                                 <?php if (has_post_thumbnail()) : ?>
-                                    <?php the_post_thumbnail('wpnews-thumb'); ?>
+                                    <?php the_post_thumbnail('hikmahnews-thumb'); ?>
                                 <?php endif; ?>
                             </a>
                         </div>

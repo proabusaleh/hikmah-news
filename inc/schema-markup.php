@@ -6,14 +6,14 @@
  * - WebSite + SearchAction
  * - Organization
  * - FAQ (if FAQ blocks detected)
- * @package WPNews
+ * @package HikmahNews
  */
 if (!defined('ABSPATH')) exit;
 
 // ============================================
 // 1. MAIN SCHEMA OUTPUT
 // ============================================
-function wpnews_schema_output() {
+function hikmahnews_schema_output() {
     $schemas = [];
 
     // --- WebSite Schema (all pages) ---
@@ -37,9 +37,9 @@ function wpnews_schema_output() {
             '@type'       => 'NewsMediaOrganization',
             'name'        => get_bloginfo('name'),
             'url'         => home_url('/'),
-            'logo'        => wpnews_get_logo_url(),
+            'logo'        => hikmahnews_get_logo_url(),
             'description' => get_bloginfo('description'),
-            'sameAs'      => wpnews_get_social_urls(),
+            'sameAs'      => hikmahnews_get_social_urls(),
             'contactPoint' => [
                 '@type'       => 'ContactPoint',
                 'contactType' => 'editorial',
@@ -49,11 +49,15 @@ function wpnews_schema_output() {
     }
 
     // --- NewsArticle Schema (single posts) ---
-    if (is_single()) {
+    // The enhanced news schema in inc/seo-news.php (NewsArticle,
+    // ReportageNewsArticle, OpinionNewsArticle, LiveBlogPosting, ...) now
+    // handles the article markup. Skip the basic article here when that
+    // module is active, but keep breadcrumbs below.
+    if (is_single() && !function_exists('hikmahnews_news_article_schema')) {
         $post = get_queried_object();
         $author = get_userdata($post->post_author);
         $cats = get_the_category($post->ID);
-        $reading = wpnews_reading_time_detailed($post->ID);
+        $reading = hikmahnews_reading_time_detailed($post->ID);
 
         $article_schema = [
             '@context'         => 'https://schema.org',
@@ -72,7 +76,7 @@ function wpnews_schema_output() {
                 'name'  => get_bloginfo('name'),
                 'logo'  => [
                     '@type' => 'ImageObject',
-                    'url'   => wpnews_get_logo_url(),
+                    'url'   => hikmahnews_get_logo_url(),
                 ],
             ],
             'mainEntityOfPage' => [
@@ -100,14 +104,17 @@ function wpnews_schema_output() {
         }
 
         // Breaking news flag
-        $is_breaking = get_post_meta($post->ID, '_wpnews_breaking', true);
+        $is_breaking = get_post_meta($post->ID, '_hikmahnews_breaking', true);
         if ($is_breaking === '1') {
             $article_schema['@type'] = 'ReportageNewsArticle';
         }
 
         $schemas[] = $article_schema;
+    }
 
-        // --- BreadcrumbList ---
+    // --- BreadcrumbList ---
+    if (is_single()) {
+        $cats = get_the_category();
         $breadcrumbs = [
             '@context'        => 'https://schema.org',
             '@type'           => 'BreadcrumbList',
@@ -157,12 +164,12 @@ function wpnews_schema_output() {
         echo '<script type="application/ld+json">' . wp_json_encode($schema, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT) . '</script>' . "\n";
     }
 }
-add_action('wp_head', 'wpnews_schema_output', 5);
+add_action('wp_head', 'hikmahnews_schema_output', 5);
 
 // ============================================
 // 2. HELPER FUNCTIONS
 // ============================================
-function wpnews_get_logo_url() {
+function hikmahnews_get_logo_url() {
     $custom_logo_id = get_theme_mod('custom_logo');
     if ($custom_logo_id) {
         $logo = wp_get_attachment_image_url($custom_logo_id, 'full');
@@ -171,11 +178,11 @@ function wpnews_get_logo_url() {
     return get_template_directory_uri() . '/assets/images/logo.png';
 }
 
-function wpnews_get_social_urls() {
+function hikmahnews_get_social_urls() {
     $socials = [];
     $networks = ['facebook', 'twitter', 'instagram', 'youtube', 'linkedin'];
     foreach ($networks as $network) {
-        $url = get_theme_mod("wpnews_social_{$network}");
+        $url = get_theme_mod("hikmahnews_social_{$network}");
         if ($url) $socials[] = $url;
     }
     return $socials;
@@ -184,7 +191,7 @@ function wpnews_get_social_urls() {
 // ============================================
 // 3. OPEN GRAPH META TAGS
 // ============================================
-function wpnews_open_graph_tags() {
+function hikmahnews_open_graph_tags() {
     if (is_single()) {
         $post = get_queried_object();
         $cats = get_the_category($post->ID);
@@ -210,7 +217,7 @@ function wpnews_open_graph_tags() {
         endif;
         ?>
         <?php if (has_post_thumbnail()) : ?>
-            <meta property="og:image" content="<?php echo esc_url(get_the_post_thumbnail_url($post->ID, 'wpnews-hero')); ?>">
+            <meta property="og:image" content="<?php echo esc_url(get_the_post_thumbnail_url($post->ID, 'hikmahnews-hero')); ?>">
             <meta property="og:image:width" content="1200">
             <meta property="og:image:height" content="675">
         <?php endif; ?>
@@ -220,9 +227,9 @@ function wpnews_open_graph_tags() {
         <meta name="twitter:title" content="<?php echo esc_attr(get_the_title()); ?>">
         <meta name="twitter:description" content="<?php echo esc_attr(wp_strip_all_tags(get_the_excerpt())); ?>">
         <?php if (has_post_thumbnail()) : ?>
-            <meta name="twitter:image" content="<?php echo esc_url(get_the_post_thumbnail_url($post->ID, 'wpnews-hero')); ?>">
+            <meta name="twitter:image" content="<?php echo esc_url(get_the_post_thumbnail_url($post->ID, 'hikmahnews-hero')); ?>">
         <?php endif; ?>
         <?php
     }
 }
-add_action('wp_head', 'wpnews_open_graph_tags', 10);
+add_action('wp_head', 'hikmahnews_open_graph_tags', 10);

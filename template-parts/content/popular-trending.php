@@ -1,7 +1,7 @@
 <?php
 /**
  * Popular & Trending Section — Two Column Layout
- * @package WPNews
+ * @package HikmahNews
  */
 if (!defined('ABSPATH')) exit;
 
@@ -100,7 +100,7 @@ $trending_query = new WP_Query([
                             <div class="trending-item__image">
                                 <a href="<?php the_permalink(); ?>">
                                     <?php if (has_post_thumbnail()) : ?>
-                                        <?php the_post_thumbnail('wpnews-thumb'); ?>
+                                        <?php the_post_thumbnail('hikmahnews-thumb'); ?>
                                     <?php endif; ?>
                                 </a>
                             </div>
@@ -123,7 +123,7 @@ $trending_query = new WP_Query([
                                         <?php echo human_time_diff(get_the_time('U'), current_time('timestamp')) . ' ago'; ?>
                                     </time>
                                     <span class="dot"></span>
-                                    <span><?php echo wpnews_reading_time(); ?> min read</span>
+                                    <span><?php echo hikmahnews_reading_time(); ?> min read</span>
                                 </div>
                             </div>
                         </article>

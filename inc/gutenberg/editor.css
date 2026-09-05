@@ -1,0 +1,85 @@
+/* ============================================
+   GUTENBERG EDITOR STYLES
+   ============================================ */
+
+/* Block Preview Placeholder */
+.hikmahnews-block-preview {
+    background: #f8f9fa;
+    border: 2px dashed #dc2626;
+    border-radius: 8px;
+    padding: 24px;
+    text-align: center;
+    font-family: 'Inter', sans-serif;
+}
+
+.hikmahnews-block-preview__icon {
+    font-size: 32px;
+    margin-bottom: 8px;
+}
+
+.hikmahnews-block-preview__title {
+    font-size: 16px;
+    font-weight: 700;
+    color: #111827;
+    margin-bottom: 4px;
+}
+
+.hikmahnews-block-preview__desc {
+    font-size: 13px;
+    color: #6b7280;
+}
+
+/* Editor Grid Preview */
+.hikmahnews-editor-grid {
+    display: grid;
+    gap: 12px;
+    padding: 8px;
+}
+
+.hikmahnews-editor-grid--2 { grid-template-columns: repeat(2, 1fr); }
+.hikmahnews-editor-grid--3 { grid-template-columns: repeat(3, 1fr); }
+.hikmahnews-editor-grid--4 { grid-template-columns: repeat(4, 1fr); }
+
+.hikmahnews-editor-card {
+    background: white;
+    border-radius: 8px;
+    overflow: hidden;
+    border: 1px solid #e5e7eb;
+}
+
+.hikmahnews-editor-card__img {
+    height: 80px;
+    background: linear-gradient(135deg, #f3f4f6, #e5e7eb);
+}
+
+.hikmahnews-editor-card__body {
+    padding: 8px;
+}
+
+.hikmahnews-editor-card__title {
+    height: 12px;
+    background: #d1d5db;
+    border-radius: 2px;
+    margin-bottom: 6px;
+    width: 80%;
+}
+
+.hikmahnews-editor-card__meta {
+    height: 8px;
+    background: #e5e7eb;
+    border-radius: 2px;
+    width: 50%;
+}
+
+/* Inspector Controls */
+.hikmahnews-inspector-section {
+    padding: 12px 0;
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.hikmahnews-inspector-section h3 {
+    font-size: 12px;
+    text-transform: uppercase;
+    color: #6b7280;
+    margin-bottom: 8px;
+}

@@ -1,7 +1,7 @@
 <?php
 /**
  * Author Archive Template
- * @package WPNews
+ * @package HikmahNews
  */
 if (!defined('ABSPATH')) exit;
 
@@ -52,7 +52,7 @@ $post_count = count_user_posts($author->ID);
                     <article class="news-card">
                         <div class="news-card__image">
                             <a href="<?php the_permalink(); ?>">
-                                <?php if (has_post_thumbnail()) the_post_thumbnail('wpnews-grid'); ?>
+                                <?php if (has_post_thumbnail()) the_post_thumbnail('hikmahnews-grid'); ?>
                             </a>
                         </div>
                         <div class="news-card__body">
@@ -65,7 +65,7 @@ $post_count = count_user_posts($author->ID);
                             <div class="news-card__meta">
                                 <time><?php echo get_the_date(); ?></time>
                                 <span class="dot"></span>
-                                <span><?php echo wpnews_reading_time(); ?> min read</span>
+                                <span><?php echo hikmahnews_reading_time(); ?> min read</span>
                             </div>
                         </div>
                     </article>

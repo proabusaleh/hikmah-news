@@ -1,0 +1,24 @@
+{
+    "$schema": "https://schemas.wp.org/trunk/block.json",
+    "apiVersion": 3,
+    "name": "hikmahnews/news-slider",
+    "version": "1.0.0",
+    "title": "News Slider",
+    "category": "hikmahnews-blocks",
+    "icon": "slides",
+    "description": "Horizontal scrolling news carousel.",
+    "keywords": ["news", "slider", "carousel", "top stories"],
+    "supports": {
+        "html": false,
+        "align": ["wide", "full"]
+    },
+    "attributes": {
+        "postCount":   { "type": "number", "default": 6 },
+        "category":    { "type": "string", "default": "" },
+        "title":       { "type": "string", "default": "Top Stories" }
+    },
+    "textdomain": "hikmahnews",
+    "editorScript": "hikmahnews-blocks-editor",
+    "editorStyle": "hikmahnews-blocks-editor",
+    "style": "hikmahnews-main"
+}

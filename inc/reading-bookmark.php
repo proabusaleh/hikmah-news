@@ -1,14 +1,14 @@
 <?php
 /**
  * Reading Time, Progress Bar & Bookmark System
- * @package WPNews
+ * @package HikmahNews
  */
 if (!defined('ABSPATH')) exit;
 
 // ============================================
 // 1. ENHANCED READING TIME
 // ============================================
-function wpnews_reading_time_detailed($post_id = null) {
+function hikmahnews_reading_time_detailed($post_id = null) {
     if (!$post_id) $post_id = get_the_ID();
     $content = get_post_field('post_content', $post_id);
 
@@ -31,7 +31,7 @@ function wpnews_reading_time_detailed($post_id = null) {
 // ============================================
 // 2. READING PROGRESS BAR (Frontend)
 // ============================================
-function wpnews_reading_progress_bar() {
+function hikmahnews_reading_progress_bar() {
     if (!is_single()) return;
     ?>
     <div class="reading-progress" id="readingProgress">
@@ -39,11 +39,11 @@ function wpnews_reading_progress_bar() {
     </div>
     <?php
 }
-add_action('wp_body_open', 'wpnews_reading_progress_bar', 5);
+add_action('wp_body_open', 'hikmahnews_reading_progress_bar', 5);
 
-function wpnews_reading_progress_script() {
+function hikmahnews_reading_progress_script() {
     if (!is_single()) return;
-    wp_add_inline_script('wpnews-main', '
+    wp_add_inline_script('hikmahnews-main', '
         (function() {
             var bar = document.getElementById("readingProgressBar");
             var article = document.querySelector(".single-article");
@@ -59,15 +59,15 @@ function wpnews_reading_progress_script() {
         })();
     ');
 }
-add_action('wp_enqueue_scripts', 'wpnews_reading_progress_script');
+add_action('wp_enqueue_scripts', 'hikmahnews_reading_progress_script');
 
 // ============================================
 // 3. BOOKMARK / SAVE ARTICLE (AJAX + localStorage)
 // ============================================
 
 // AJAX handler for logged-in users
-function wpnews_toggle_bookmark() {
-    check_ajax_referer('wpnews_nonce', 'nonce');
+function hikmahnews_toggle_bookmark() {
+    check_ajax_referer('hikmahnews_nonce', 'nonce');
 
     $post_id = absint($_POST['post_id'] ?? 0);
     if (!$post_id || !is_user_logged_in()) {
@@ -75,7 +75,7 @@ function wpnews_toggle_bookmark() {
     }
 
     $user_id = get_current_user_id();
-    $bookmarks = get_user_meta($user_id, '_wpnews_bookmarks', true) ?: [];
+    $bookmarks = get_user_meta($user_id, '_hikmahnews_bookmarks', true) ?: [];
 
     if (in_array($post_id, $bookmarks)) {
         // Remove
@@ -87,22 +87,22 @@ function wpnews_toggle_bookmark() {
         $status = 'added';
     }
 
-    update_user_meta($user_id, '_wpnews_bookmarks', array_values($bookmarks));
+    update_user_meta($user_id, '_hikmahnews_bookmarks', array_values($bookmarks));
 
     wp_send_json_success([
         'status' => $status,
         'count'  => count($bookmarks),
     ]);
 }
-add_action('wp_ajax_wpnews_toggle_bookmark', 'wpnews_toggle_bookmark');
+add_action('wp_ajax_hikmahnews_toggle_bookmark', 'hikmahnews_toggle_bookmark');
 
 // Bookmark button HTML
-function wpnews_bookmark_button($post_id = null) {
+function hikmahnews_bookmark_button($post_id = null) {
     if (!$post_id) $post_id = get_the_ID();
 
     $is_bookmarked = false;
     if (is_user_logged_in()) {
-        $bookmarks = get_user_meta(get_current_user_id(), '_wpnews_bookmarks', true) ?: [];
+        $bookmarks = get_user_meta(get_current_user_id(), '_hikmahnews_bookmarks', true) ?: [];
         $is_bookmarked = in_array($post_id, $bookmarks);
     }
     ?>
@@ -123,19 +123,19 @@ function wpnews_bookmark_button($post_id = null) {
 }
 
 // Bookmark JS
-function wpnews_bookmark_script() {
+function hikmahnews_bookmark_script() {
     if (!is_single() && !is_home() && !is_archive()) return;
-    wp_add_inline_script('wpnews-main', '
+    wp_add_inline_script('hikmahnews-main', '
         document.addEventListener("click", function(e) {
             var btn = e.target.closest(".bookmark-btn");
             if (!btn) return;
 
             var postId = btn.dataset.postId;
-            if (typeof wpnews_ajax === "undefined") return;
+            if (typeof hikmahnews_ajax === "undefined") return;
 
             // For logged-out users: use localStorage
-            if (!wpnews_ajax.nonce) {
-                var saved = JSON.parse(localStorage.getItem("wpnews_bookmarks") || "[]");
+            if (!hikmahnews_ajax.nonce) {
+                var saved = JSON.parse(localStorage.getItem("hikmahnews_bookmarks") || "[]");
                 var idx = saved.indexOf(postId);
                 if (idx > -1) {
                     saved.splice(idx, 1);
@@ -144,15 +144,15 @@ function wpnews_bookmark_script() {
                     saved.push(postId);
                     btn.classList.add("bookmark-btn--active");
                 }
-                localStorage.setItem("wpnews_bookmarks", JSON.stringify(saved));
+                localStorage.setItem("hikmahnews_bookmarks", JSON.stringify(saved));
                 return;
             }
 
             // Logged-in: AJAX
-            fetch(wpnews_ajax.ajax_url, {
+            fetch(hikmahnews_ajax.ajax_url, {
                 method: "POST",
                 headers: {"Content-Type": "application/x-www-form-urlencoded"},
-                body: "action=wpnews_toggle_bookmark&nonce=" + wpnews_ajax.nonce + "&post_id=" + postId
+                body: "action=hikmahnews_toggle_bookmark&nonce=" + hikmahnews_ajax.nonce + "&post_id=" + postId
             })
             .then(r => r.json())
             .then(data => {
@@ -163,4 +163,4 @@ function wpnews_bookmark_script() {
         });
     ');
 }
-add_action('wp_enqueue_scripts', 'wpnews_bookmark_script');
+add_action('wp_enqueue_scripts', 'hikmahnews_bookmark_script');

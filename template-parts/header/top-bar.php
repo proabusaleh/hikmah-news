@@ -1,7 +1,7 @@
 <?php
 /**
  * Top Bar — Date, Breaking News Ticker, Social Icons
- * @package WPNews
+ * @package HikmahNews
  */
 if (!defined('ABSPATH')) exit;
 ?>
@@ -47,7 +47,7 @@ if (!defined('ABSPATH')) exit;
                     else :
                     ?>
                         <span class="ticker__item">
-                            Welcome to WP News — Your trusted news source.
+                            Welcome to Hikmah News — Your trusted news source.
                         </span>
                     <?php endif; ?>
                 </div>

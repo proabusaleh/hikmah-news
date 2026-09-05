@@ -1,17 +1,17 @@
 <?php
 /**
  * Category Landing Page — Dynamic Layouts
- * @package WPNews
+ * @package HikmahNews
  */
 if (!defined('ABSPATH')) exit;
 
 get_header();
 
 $category = get_queried_object();
-$cat_color = wpnews_get_category_color($category->term_id);
-$cat_icon = wpnews_get_category_icon($category->term_id);
-$cat_layout = wpnews_get_category_layout($category->term_id);
-$cat_image = get_term_meta($category->term_id, 'wpnews_image', true);
+$cat_color = hikmahnews_get_category_color($category->term_id);
+$cat_icon = hikmahnews_get_category_icon($category->term_id);
+$cat_layout = hikmahnews_get_category_layout($category->term_id);
+$cat_image = get_term_meta($category->term_id, 'hikmahnews_image', true);
 $children = get_categories(['parent' => $category->term_id, 'hide_empty' => true]);
 ?>
 
@@ -41,6 +41,8 @@ $children = get_categories(['parent' => $category->term_id, 'hide_empty' => true
         </div>
     </header>
 
+    <?php do_action('hikmahnews_after_category_header'); ?>
+
     <!-- ===== SUBCATEGORY NAVIGATION ===== -->
     <?php if ($children) : ?>
         <nav class="cat-nav">
@@ -51,8 +53,8 @@ $children = get_categories(['parent' => $category->term_id, 'hide_empty' => true
                         All <?php echo esc_html($category->name); ?>
                     </a>
                     <?php foreach ($children as $child) :
-                        $child_color = wpnews_get_category_color($child->term_id);
-                        $child_icon = wpnews_get_category_icon($child->term_id);
+                        $child_color = hikmahnews_get_category_color($child->term_id);
+                        $child_icon = hikmahnews_get_category_icon($child->term_id);
                     ?>
                         <a href="<?php echo esc_url(get_category_link($child)); ?>"
                            class="cat-nav__tab">
@@ -80,7 +82,7 @@ $children = get_categories(['parent' => $category->term_id, 'hide_empty' => true
                 <article class="cat-block-featured" style="min-height: 420px;">
                     <a href="<?php the_permalink(); ?>" class="cat-block-featured__link">
                         <div class="cat-block-featured__image">
-                            <?php if (has_post_thumbnail()) the_post_thumbnail('wpnews-hero'); ?>
+                            <?php if (has_post_thumbnail()) the_post_thumbnail('hikmahnews-hero'); ?>
                             <div class="cat-block-featured__overlay"></div>
                         </div>
                         <div class="cat-block-featured__content">
@@ -96,7 +98,7 @@ $children = get_categories(['parent' => $category->term_id, 'hide_empty' => true
                                 <span class="dot"></span>
                                 <time><?php echo get_the_date(); ?></time>
                                 <span class="dot"></span>
-                                <span>👁 <?php echo wpnews_get_formatted_views(); ?></span>
+                                <span>👁 <?php echo hikmahnews_get_formatted_views(); ?></span>
                             </div>
                         </div>
                     </a>
@@ -134,7 +136,7 @@ $children = get_categories(['parent' => $category->term_id, 'hide_empty' => true
                             <article class="news-card">
                                 <div class="news-card__image">
                                     <a href="<?php the_permalink(); ?>">
-                                        <?php if (has_post_thumbnail()) the_post_thumbnail('wpnews-grid'); ?>
+                                        <?php if (has_post_thumbnail()) the_post_thumbnail('hikmahnews-grid'); ?>
                                     </a>
                                     <span class="badge news-card__badge"
                                           style="background: <?php echo esc_attr($cat_color); ?>;">
@@ -156,7 +158,7 @@ $children = get_categories(['parent' => $category->term_id, 'hide_empty' => true
                                         <span class="dot"></span>
                                         <time><?php echo human_time_diff(get_the_time('U'), current_time('timestamp')) . ' ago'; ?></time>
                                         <span class="dot"></span>
-                                        <span>👁 <?php echo wpnews_get_formatted_views(); ?></span>
+                                        <span>👁 <?php echo hikmahnews_get_formatted_views(); ?></span>
                                     </div>
                                 </div>
                             </article>
@@ -165,7 +167,7 @@ $children = get_categories(['parent' => $category->term_id, 'hide_empty' => true
 
                     <!-- Load More -->
                     <?php
-                    wpnews_load_more_button([
+                    hikmahnews_load_more_button([
                         'max_pages' => $cat_query->max_num_pages,
                         'per_page'  => 6,
                         'category'  => $category->slug,
@@ -188,7 +190,7 @@ $children = get_categories(['parent' => $category->term_id, 'hide_empty' => true
                                 'cat'            => $category->term_id,
                                 'posts_per_page' => 5,
                                 'orderby'        => 'meta_value_num',
-                                'meta_key'       => '_wpnews_views',
+                                'meta_key'       => '_hikmahnews_views',
                                 'no_found_rows'  => true,
                             ]);
                             $num = 1;
@@ -204,7 +206,7 @@ $children = get_categories(['parent' => $category->term_id, 'hide_empty' => true
                                             <a href="<?php the_permalink(); ?>"><?php the_title(); ?></a>
                                         </h4>
                                         <div class="numbered-item__meta">
-                                            <span>👁 <?php echo wpnews_get_formatted_views(); ?></span>
+                                            <span>👁 <?php echo hikmahnews_get_formatted_views(); ?></span>
                                         </div>
                                     </div>
                                 </article>
@@ -214,8 +216,8 @@ $children = get_categories(['parent' => $category->term_id, 'hide_empty' => true
 
                     <!-- Category Tabs Widget -->
                     <?php
-                    if (class_exists('WPNews_Category_Tabs_Widget')) {
-                        the_widget('WPNews_Category_Tabs_Widget', [
+                    if (class_exists('HikmahNews_Category_Tabs_Widget')) {
+                        the_widget('HikmahNews_Category_Tabs_Widget', [
                             'title'      => 'More Stories',
                             'categories' => $category->slug,
                         ]);

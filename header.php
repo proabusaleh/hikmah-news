@@ -1,7 +1,7 @@
 <?php
 /**
  * Theme Header
- * @package WPNews
+ * @package HikmahNews
  */
 if (!defined('ABSPATH')) exit;
 ?>

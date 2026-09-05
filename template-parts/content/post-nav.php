@@ -1,7 +1,7 @@
 <?php
 /**
  * Previous / Next Post Navigation
- * @package WPNews
+ * @package HikmahNews
  */
 if (!defined('ABSPATH')) exit;
 

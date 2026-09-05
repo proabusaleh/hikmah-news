@@ -1,7 +1,7 @@
 <?php
 /**
  * Hero Section — Large Featured + Side Stories
- * @package WPNews
+ * @package HikmahNews
  */
 if (!defined('ABSPATH')) exit;
 
@@ -40,9 +40,9 @@ $side_query = new WP_Query([
                     <a href="<?php the_permalink(); ?>" class="hero-main__link">
                         <div class="hero-main__image">
                             <?php if (has_post_thumbnail()) : ?>
-                                <?php the_post_thumbnail('wpnews-hero'); ?>
+                                <?php the_post_thumbnail('hikmahnews-hero'); ?>
                             <?php else : ?>
-                                <img src="<?php echo esc_url(WPNEWS_URI . '/assets/images/placeholder.jpg'); ?>"
+                                <img src="<?php echo esc_url(HIKMAHNEWS_URI . '/assets/images/placeholder.jpg'); ?>"
                                      alt="<?php the_title_attribute(); ?>">
                             <?php endif; ?>
                             <div class="hero-main__overlay"></div>
@@ -83,7 +83,7 @@ $side_query = new WP_Query([
                         <a href="<?php the_permalink(); ?>" class="hero-side__link">
                             <div class="hero-side__image">
                                 <?php if (has_post_thumbnail()) : ?>
-                                    <?php the_post_thumbnail('wpnews-thumb'); ?>
+                                    <?php the_post_thumbnail('hikmahnews-thumb'); ?>
                                 <?php endif; ?>
                             </div>
                             <div class="hero-side__content">

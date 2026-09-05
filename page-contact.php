@@ -1,7 +1,7 @@
 <?php
 /**
  * Template Name: Contact Page
- * @package WPNews
+ * @package HikmahNews
  */
 if (!defined('ABSPATH')) exit;
 
@@ -11,8 +11,8 @@ get_header();
 $form_success = false;
 $form_error = '';
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['wpnews_contact_nonce'])) {
-    if (wp_verify_nonce($_POST['wpnews_contact_nonce'], 'wpnews_contact')) {
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['hikmahnews_contact_nonce'])) {
+    if (wp_verify_nonce($_POST['hikmahnews_contact_nonce'], 'hikmahnews_contact')) {
         $name = sanitize_text_field($_POST['contact_name']);
         $email = sanitize_email($_POST['contact_email']);
         $subject = sanitize_text_field($_POST['contact_subject']);
@@ -23,7 +23,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['wpnews_contact_nonce'
             $headers = ['Reply-To: ' . $name . ' <' . $email . '>'];
             $body = "Name: {$name}\nEmail: {$email}\n\nMessage:\n{$message}";
 
-            if (wp_mail($to, '[WP News] ' . $subject, $body, $headers)) {
+            if (wp_mail($to, '[Hikmah News] ' . $subject, $body, $headers)) {
                 $form_success = true;
             } else {
                 $form_error = 'Failed to send. Please try again.';
@@ -60,7 +60,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['wpnews_contact_nonce'
                             <span class="contact-info__icon">📧</span>
                             <div>
                                 <strong>Email</strong>
-                                <a href="mailto:editor@wpnews.com">editor@wpnews.com</a>
+                                <a href="mailto:editor@hikmahnews.com">editor@hikmahnews.com</a>
                             </div>
                         </div>
                         <div class="contact-info__item">
@@ -95,7 +95,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['wpnews_contact_nonce'
                     <?php endif; ?>
 
                     <form method="POST" class="contact-form">
-                        <?php wp_nonce_field('wpnews_contact', 'wpnews_contact_nonce'); ?>
+                        <?php wp_nonce_field('hikmahnews_contact', 'hikmahnews_contact_nonce'); ?>
 
                         <div class="contact-form__row">
                             <div class="contact-form__field">

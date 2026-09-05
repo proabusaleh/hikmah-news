@@ -1,7 +1,7 @@
 <?php
 /**
  * Newsletter CTA Section
- * @package WPNews
+ * @package HikmahNews
  */
 if (!defined('ABSPATH')) exit;
 ?>

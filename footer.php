@@ -1,13 +1,19 @@
 <?php
 /**
  * Theme Footer
- * @package WPNews
+ * @package HikmahNews
  */
 if (!defined('ABSPATH')) exit;
 ?>
 
+    <!-- ========== HOMEPAGE BOTTOM AD ========== -->
+    <?php do_action('hikmahnews_before_footer'); ?>
+
     <!-- ========== FOOTER ========== -->
     <footer class="site-footer" id="siteFooter">
+
+        <!-- Footer Banner Ad -->
+        <?php do_action('hikmahnews_before_footer_widgets'); ?>
 
         <!-- Footer Widgets Area -->
         <div class="footer-widgets">
@@ -16,7 +22,7 @@ if (!defined('ABSPATH')) exit;
 
                     <!-- Column 1: About -->
                     <div class="footer-widget">
-                        <h4 class="footer-widget__title">About WP News</h4>
+                        <h4 class="footer-widget__title">About Hikmah News</h4>
                         <p class="footer-widget__text">
                             Your trusted source for breaking news, in-depth analysis,
                             and comprehensive coverage of the stories that matter most.
@@ -123,7 +129,7 @@ if (!defined('ABSPATH')) exit;
             <div class="container footer-bottom__inner">
                 <p class="footer-bottom__copy">
                     &copy; <?php echo esc_html(date('Y')); ?>
-                    <strong>WP News</strong>. All rights reserved.
+                    <strong>Hikmah News</strong>. All rights reserved.
                 </p>
                 <p class="footer-bottom__credits">
                     Designed with ❤️ for WordPress

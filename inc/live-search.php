@@ -4,15 +4,15 @@
  * - Real-time search as you type (300ms debounce)
  * - Shows title, category, thumbnail, excerpt
  * - Keyboard navigation (↑↓ Enter Esc)
- * @package WPNews
+ * @package HikmahNews
  */
 if (!defined('ABSPATH')) exit;
 
 // ============================================
 // 1. AJAX SEARCH HANDLER
 // ============================================
-function wpnews_live_search() {
-    check_ajax_referer('wpnews_nonce', 'nonce');
+function hikmahnews_live_search() {
+    check_ajax_referer('hikmahnews_nonce', 'nonce');
 
     $query = sanitize_text_field($_POST['query'] ?? '');
     if (strlen($query) < 2) {
@@ -34,7 +34,7 @@ function wpnews_live_search() {
         while ($search->have_posts()) {
             $search->the_post();
             $cats = get_the_category();
-            $reading = wpnews_reading_time_detailed(get_the_ID());
+            $reading = hikmahnews_reading_time_detailed(get_the_ID());
 
             $results[] = [
                 'id'        => get_the_ID(),
@@ -46,9 +46,9 @@ function wpnews_live_search() {
                 'date'      => get_the_date('M j, Y'),
                 'reading'   => $reading['label'],
                 'thumbnail' => has_post_thumbnail()
-                    ? get_the_post_thumbnail_url(get_the_ID(), 'wpnews-thumb')
+                    ? get_the_post_thumbnail_url(get_the_ID(), 'hikmahnews-thumb')
                     : '',
-                'views'     => wpnews_get_formatted_views(get_the_ID()),
+                'views'     => hikmahnews_get_formatted_views(get_the_ID()),
             ];
         }
         wp_reset_postdata();
@@ -61,13 +61,13 @@ function wpnews_live_search() {
         'search_url' => add_query_arg('s', urlencode($query), home_url('/')),
     ]);
 }
-add_action('wp_ajax_wpnews_live_search', 'wpnews_live_search');
-add_action('wp_ajax_nopriv_wpnews_live_search', 'wpnews_live_search');
+add_action('wp_ajax_hikmahnews_live_search', 'hikmahnews_live_search');
+add_action('wp_ajax_nopriv_hikmahnews_live_search', 'hikmahnews_live_search');
 
 // ============================================
 // 2. LIVE SEARCH HTML (Replaces old search overlay)
 // ============================================
-function wpnews_live_search_overlay() {
+function hikmahnews_live_search_overlay() {
     ?>
     <div class="live-search-overlay" id="liveSearchOverlay">
         <div class="container">
@@ -111,13 +111,13 @@ function wpnews_live_search_overlay() {
     </div>
     <?php
 }
-add_action('wp_footer', 'wpnews_live_search_overlay');
+add_action('wp_footer', 'hikmahnews_live_search_overlay');
 
 // ============================================
 // 3. LIVE SEARCH JAVASCRIPT
 // ============================================
-function wpnews_live_search_script() {
-    wp_add_inline_script('wpnews-main', '
+function hikmahnews_live_search_script() {
+    wp_add_inline_script('hikmahnews-main', '
     (function() {
         var overlay = document.getElementById("liveSearchOverlay");
         var input = document.getElementById("liveSearchInput");
@@ -180,12 +180,12 @@ function wpnews_live_search_script() {
             results.innerHTML = \'<div class="live-search__loading"><div class="live-search__spinner"></div> Searching...</div>\';
 
             debounceTimer = setTimeout(function() {
-                if (typeof wpnews_ajax === "undefined") return;
+                if (typeof hikmahnews_ajax === "undefined") return;
 
-                fetch(wpnews_ajax.ajax_url, {
+                fetch(hikmahnews_ajax.ajax_url, {
                     method: "POST",
                     headers: {"Content-Type": "application/x-www-form-urlencoded"},
-                    body: "action=wpnews_live_search&nonce=" + wpnews_ajax.nonce + "&query=" + encodeURIComponent(query)
+                    body: "action=hikmahnews_live_search&nonce=" + hikmahnews_ajax.nonce + "&query=" + encodeURIComponent(query)
                 })
                 .then(function(r) { return r.json(); })
                 .then(function(data) {
@@ -260,4 +260,4 @@ function wpnews_live_search_script() {
     })();
     ');
 }
-add_action('wp_enqueue_scripts', 'wpnews_live_search_script');
+add_action('wp_enqueue_scripts', 'hikmahnews_live_search_script');

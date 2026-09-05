@@ -1,8 +1,8 @@
 <?php
 /**
- * WP News Theme - Main Functions
- * @package WPNews
- * @version 1.0.0
+ * Hikmah News Theme - Main Functions
+ * @package HikmahNews
+ * @version 2.0.0
  */
 
 if (!defined('ABSPATH')) exit;
@@ -10,23 +10,23 @@ if (!defined('ABSPATH')) exit;
 // ============================================
 // 1. THEME CONSTANTS
 // ============================================
-define('WPNEWS_VERSION', '1.0.0');
-define('WPNEWS_DIR', get_template_directory());
-define('WPNEWS_URI', get_template_directory_uri());
+define('HIKMAHNEWS_VERSION', '2.0.0');
+define('HIKMAHNEWS_DIR', get_template_directory());
+define('HIKMAHNEWS_URI', get_template_directory_uri());
 
 // ============================================
 // 2. THEME SETUP
 // ============================================
-function wpnews_theme_setup() {
+function hikmahnews_theme_setup() {
     // Title tag support
     add_theme_support('title-tag');
 
     // Featured images
     add_theme_support('post-thumbnails');
-    add_image_size('wpnews-hero', 1200, 675, true);
-    add_image_size('wpnews-grid', 600, 400, true);
-    add_image_size('wpnews-list', 350, 230, true);
-    add_image_size('wpnews-thumb', 150, 100, true);
+    add_image_size('hikmahnews-hero', 1200, 675, true);
+    add_image_size('hikmahnews-grid', 600, 400, true);
+    add_image_size('hikmahnews-list', 350, 230, true);
+    add_image_size('hikmahnews-thumb', 150, 100, true);
 
     // HTML5 support
     add_theme_support('html5', [
@@ -44,98 +44,144 @@ function wpnews_theme_setup() {
 
     // Menus
     register_nav_menus([
-        'primary'   => __('Primary Menu', 'wpnews'),
-        'top-bar'   => __('Top Bar Menu', 'wpnews'),
-        'footer'    => __('Footer Menu', 'wpnews'),
+        'primary'   => __('Primary Menu', 'hikmahnews'),
+        'top-bar'   => __('Top Bar Menu', 'hikmahnews'),
+        'footer'    => __('Footer Menu', 'hikmahnews'),
     ]);
 }
-add_action('after_setup_theme', 'wpnews_theme_setup');
+add_action('after_setup_theme', 'hikmahnews_theme_setup');
 
 // ============================================
 // 3. ENQUEUE STYLES & SCRIPTS
 // ============================================
-function wpnews_enqueue_assets() {
-    // Google Fonts
+function hikmahnews_enqueue_assets() {
+    // Google Fonts — from theme options
+    $heading_font = hikmahnews_option('typography', 'heading_font', 'Merriweather');
+    $body_font    = hikmahnews_option('typography', 'body_font', 'Inter');
+
+    $font_family_str = '';
+    if ($heading_font === $body_font) {
+        $font_family_str = $heading_font . ':wght@400;500;600;700;800;900';
+    } else {
+        $font_family_str = $body_font . ':wght@400;500;600;700;800;900&family=' .
+                           $heading_font . ':wght@400;700;900';
+    }
+
     wp_enqueue_style(
-        'wpnews-fonts',
-        'https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Merriweather:wght@400;700;900&display=swap',
+        'hikmahnews-fonts',
+        'https://fonts.googleapis.com/css2?family=' . str_replace(' ', '+', $font_family_str) .
+            '&display=swap',
         [],
         null
     );
 
     // Main CSS
     wp_enqueue_style(
-        'wpnews-main',
-        WPNEWS_URI . '/assets/css/main.css',
-        ['wpnews-fonts'],
-        WPNEWS_VERSION
+        'hikmahnews-main',
+        HIKMAHNEWS_URI . '/assets/css/main.css',
+        ['hikmahnews-fonts'],
+        HIKMAHNEWS_VERSION
     );
 
     // Dark Mode CSS
     wp_enqueue_style(
-        'wpnews-dark',
-        WPNEWS_URI . '/assets/css/dark.css',
-        ['wpnews-main'],
-        WPNEWS_VERSION
+        'hikmahnews-dark',
+        HIKMAHNEWS_URI . '/assets/css/dark.css',
+        ['hikmahnews-main'],
+        HIKMAHNEWS_VERSION
     );
 
     // Responsive CSS
     wp_enqueue_style(
-        'wpnews-responsive',
-        WPNEWS_URI . '/assets/css/responsive.css',
-        ['wpnews-main'],
-        WPNEWS_VERSION
+        'hikmahnews-responsive',
+        HIKMAHNEWS_URI . '/assets/css/responsive.css',
+        ['hikmahnews-main'],
+        HIKMAHNEWS_VERSION
     );
 
     // Main JS
     wp_enqueue_script(
-        'wpnews-main',
-        WPNEWS_URI . '/assets/js/main.js',
+        'hikmahnews-main',
+        HIKMAHNEWS_URI . '/assets/js/main.js',
         [],
-        WPNEWS_VERSION,
+        HIKMAHNEWS_VERSION,
         true
     );
 
     // Localize script for AJAX
-    wp_localize_script('wpnews-main', 'wpnews_ajax', [
+    wp_localize_script('hikmahnews-main', 'hikmahnews_ajax', [
         'ajax_url' => admin_url('admin-ajax.php'),
-        'nonce'    => wp_create_nonce('wpnews_nonce'),
+        'nonce'    => wp_create_nonce('hikmahnews_nonce'),
     ]);
 }
-add_action('wp_enqueue_scripts', 'wpnews_enqueue_assets');
+add_action('wp_enqueue_scripts', 'hikmahnews_enqueue_assets');
 
 // Include helper functions
-require_once WPNEWS_DIR . '/inc/helpers.php';
-// Include theme options
-require_once WPNEWS_DIR . '/inc/theme-options.php';
+require_once HIKMAHNEWS_DIR . '/inc/helpers.php';
+// Include theme options (Customizer panel)
+require_once HIKMAHNEWS_DIR . '/inc/theme-options.php';
 
-// Phase 6 — News Features
-require_once WPNEWS_DIR . '/inc/breaking-news.php';
-require_once WPNEWS_DIR . '/inc/featured-news.php';
-require_once WPNEWS_DIR . '/inc/post-views.php';
-require_once WPNEWS_DIR . '/inc/reading-bookmark.php';
-require_once WPNEWS_DIR . '/inc/live-search.php';
+// ============================================
+// FOUNDATION (Phases 1-5)
+// ============================================
 
-// Phase 6 — Final Features
-require_once WPNEWS_DIR . '/inc/ajax-load-more.php';
-require_once WPNEWS_DIR . '/inc/trending-algorithm.php';
-require_once WPNEWS_DIR . '/inc/push-notifications.php';
-require_once WPNEWS_DIR . '/inc/schema-markup.php';
-require_once WPNEWS_DIR . '/inc/category-tabs-widget.php';
+// ============================================
+// NEWS FEATURES (Phase 6)
+// ============================================
+require_once HIKMAHNEWS_DIR . '/inc/breaking-news.php';
+require_once HIKMAHNEWS_DIR . '/inc/featured-news.php';
+require_once HIKMAHNEWS_DIR . '/inc/post-views.php';
+require_once HIKMAHNEWS_DIR . '/inc/reading-bookmark.php';
+require_once HIKMAHNEWS_DIR . '/inc/live-search.php';
+require_once HIKMAHNEWS_DIR . '/inc/ajax-load-more.php';
+require_once HIKMAHNEWS_DIR . '/inc/trending-algorithm.php';
+require_once HIKMAHNEWS_DIR . '/inc/push-notifications.php';
+require_once HIKMAHNEWS_DIR . '/inc/schema-markup.php';
+require_once HIKMAHNEWS_DIR . '/inc/category-tabs-widget.php';
 
-// Phase 7 — Category System
-require_once WPNEWS_DIR . '/inc/category-setup.php';
-require_once WPNEWS_DIR . '/inc/category-meta-admin.php';
-require_once WPNEWS_DIR . '/inc/mega-menu.php';
-require_once WPNEWS_DIR . '/inc/homepage-builder.php';
+// ============================================
+// CATEGORY SYSTEM (Phase 7)
+// ============================================
+require_once HIKMAHNEWS_DIR . '/inc/category-setup.php';
+require_once HIKMAHNEWS_DIR . '/inc/category-meta-admin.php';
+require_once HIKMAHNEWS_DIR . '/inc/mega-menu.php';
+require_once HIKMAHNEWS_DIR . '/inc/homepage-builder.php';
+
+// ============================================
+// ADVERTISEMENT SYSTEM (Phase 8)
+// ============================================
+require_once HIKMAHNEWS_DIR . '/inc/ad-manager.php';
+require_once HIKMAHNEWS_DIR . '/inc/ad-placements.php';
+
+// ============================================
+// SEO SYSTEM (Phase 9)
+// ============================================
+require_once HIKMAHNEWS_DIR . '/inc/seo-meta.php';
+require_once HIKMAHNEWS_DIR . '/inc/seo-performance.php';
+require_once HIKMAHNEWS_DIR . '/inc/seo-news.php';
+
+// ============================================
+// ADVANCED PERFORMANCE (Phase 10)
+// ============================================
+require_once HIKMAHNEWS_DIR . '/inc/perf-core.php';
+require_once HIKMAHNEWS_DIR . '/inc/perf-advanced.php';
+
+// ============================================
+// FULL THEME OPTIONS (Phase 11)
+// ============================================
+require_once HIKMAHNEWS_DIR . '/inc/theme-options-panel.php';
+require_once HIKMAHNEWS_DIR . '/inc/theme-options-tabs-1.php';
+require_once HIKMAHNEWS_DIR . '/inc/theme-options-tabs-2.php';
+require_once HIKMAHNEWS_DIR . '/inc/admin-enhancements.php';
+
 // ============================================
 // 4. WIDGET AREAS
 // ============================================
-function wpnews_widgets_init() {
+function hikmahnews_widgets_init() {
     register_sidebar([
-        'name'          => __('Main Sidebar', 'wpnews'),
+        'name'          => __('Main Sidebar', 'hikmahnews'),
         'id'            => 'sidebar-main',
-        'description'   => __('Add widgets to the main sidebar.', 'wpnews'),
+        'description'   => __('Add widgets to the main sidebar.', 'hikmahnews'),
         'before_widget' => '<div id="%1$s" class="sidebar-widget %2$s">',
         'after_widget'  => '</div>',
         'before_title'  => '<h3 class="sidebar-widget__title">',
@@ -143,21 +189,31 @@ function wpnews_widgets_init() {
     ]);
 
     register_sidebar([
-        'name'          => __('Header Ad', 'wpnews'),
+        'name'          => __('Header Ad', 'hikmahnews'),
         'id'            => 'header-ad',
-        'description'   => __('Ad space in the header.', 'wpnews'),
+        'description'   => __('Ad space in the header.', 'hikmahnews'),
         'before_widget' => '<div class="header-ad-widget">',
         'after_widget'  => '</div>',
     ]);
-
-    register_sidebar([
-        'name'          => __('Footer Widgets', 'wpnews'),
-        'id'            => 'footer-widgets',
-        'description'   => __('Footer widget area.', 'wpnews'),
-        'before_widget' => '<div id="%1$s" class="footer-widget %2$s">',
-        'after_widget'  => '</div>',
-        'before_title'  => '<h4 class="footer-widget__title">',
-        'after_title'   => '</h4>',
-    ]);
 }
-add_action('widgets_init', 'wpnews_widgets_init');
+add_action('widgets_init', 'hikmahnews_widgets_init');
+
+// ============================================
+// GUTENBERG BLOCKS (Phase 12)
+// ============================================
+require_once HIKMAHNEWS_DIR . '/inc/gutenberg/blocks-init.php';
+require_once HIKMAHNEWS_DIR . '/inc/gutenberg/block-renders.php';
+require_once HIKMAHNEWS_DIR . '/inc/gutenberg/block-patterns.php';
+
+// ============================================
+// SECURITY (Phase 13)
+// ============================================
+require_once HIKMAHNEWS_DIR . '/inc/security.php';
+
+// ============================================
+// TRANSLATION (Phase 13)
+// ============================================
+function hikmahnews_load_textdomain() {
+    load_theme_textdomain('hikmahnews', HIKMAHNEWS_DIR . '/languages');
+}
+add_action('after_setup_theme', 'hikmahnews_load_textdomain');

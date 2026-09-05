@@ -1,0 +1,22 @@
+{
+    "$schema": "https://schemas.wp.org/trunk/block.json",
+    "apiVersion": 3,
+    "name": "hikmahnews/advertisement",
+    "version": "1.0.0",
+    "title": "Advertisement",
+    "category": "hikmahnews-blocks",
+    "icon": "money-alt",
+    "description": "Ad placement block for managed ad slots.",
+    "keywords": ["news", "ad", "advertisement", "banner"],
+    "supports": {
+        "html": false,
+        "align": ["wide", "full"]
+    },
+    "attributes": {
+        "adPosition": { "type": "string", "default": "homepage_top" }
+    },
+    "textdomain": "hikmahnews",
+    "editorScript": "hikmahnews-blocks-editor",
+    "editorStyle": "hikmahnews-blocks-editor",
+    "style": "hikmahnews-main"
+}

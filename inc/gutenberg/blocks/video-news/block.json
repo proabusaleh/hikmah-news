@@ -1,0 +1,26 @@
+{
+    "$schema": "https://schemas.wp.org/trunk/block.json",
+    "apiVersion": 3,
+    "name": "hikmahnews/video-news",
+    "version": "1.0.0",
+    "title": "Video News",
+    "category": "hikmahnews-blocks",
+    "icon": "video-alt3",
+    "description": "Video news from the Video category.",
+    "keywords": ["news", "video", "multimedia"],
+    "supports": {
+        "html": false,
+        "align": ["wide", "full"]
+    },
+    "attributes": {
+        "postCount":   { "type": "number", "default": 4 },
+        "columns":     { "type": "number", "default": 3 },
+        "showExcerpt": { "type": "boolean", "default": true },
+        "showViews":   { "type": "boolean", "default": true },
+        "title":       { "type": "string", "default": "Video News" }
+    },
+    "textdomain": "hikmahnews",
+    "editorScript": "hikmahnews-blocks-editor",
+    "editorStyle": "hikmahnews-blocks-editor",
+    "style": "hikmahnews-main"
+}

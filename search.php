@@ -1,7 +1,7 @@
 <?php
 /**
  * Search Results Template
- * @package WPNews
+ * @package HikmahNews
  */
 if (!defined('ABSPATH')) exit;
 
@@ -43,7 +43,7 @@ $total_results = $wp_query->found_posts;
                             <div class="search-result-item__image">
                                 <a href="<?php the_permalink(); ?>">
                                     <?php if (has_post_thumbnail()) : ?>
-                                        <?php the_post_thumbnail('wpnews-list'); ?>
+                                        <?php the_post_thumbnail('hikmahnews-list'); ?>
                                     <?php endif; ?>
                                 </a>
                             </div>
@@ -69,7 +69,7 @@ $total_results = $wp_query->found_posts;
                                     <span class="dot"></span>
                                     <time><?php echo get_the_date(); ?></time>
                                     <span class="dot"></span>
-                                    <span><?php echo wpnews_reading_time(); ?> min read</span>
+                                    <span><?php echo hikmahnews_reading_time(); ?> min read</span>
                                 </div>
                             </div>
                         </article>

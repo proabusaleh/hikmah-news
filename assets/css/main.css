@@ -1,5 +1,5 @@
 /* ============================================
-   WP NEWS THEME — DESIGN SYSTEM
+   HIKMAH NEWS THEME — DESIGN SYSTEM
    ============================================ */
 
 /* ---------- CSS VARIABLES ---------- */
@@ -4335,4 +4335,209 @@ button, input, select, textarea {
 
 .home-cat-section:nth-child(even) {
     background: var(--bg-surface);
+}
+
+/* ============================================
+   ADVERTISEMENT SYSTEM
+   ============================================ */
+
+.hikmahnews-ad {
+    position: relative;
+    text-align: center;
+    padding: var(--space-4) 0;
+    margin: var(--space-6) 0;
+    overflow: hidden;
+}
+
+.hikmahnews-ad__label {
+    display: block;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--text-muted);
+    margin-bottom: var(--space-2);
+    font-weight: var(--weight-medium);
+}
+
+.hikmahnews-ad__image {
+    max-width: 100%;
+    height: auto;
+    border-radius: var(--radius-md);
+}
+
+/* Position-specific */
+.hikmahnews-ad--header {
+    background: var(--color-gray-50);
+    border-bottom: 1px solid var(--border-color);
+    padding: var(--space-3) 0;
+    margin: 0;
+}
+
+.hikmahnews-ad--homepage_top {
+    padding: var(--space-6) 0;
+    background: var(--bg-surface);
+    border-radius: var(--radius-lg);
+    border: 1px dashed var(--border-color);
+}
+
+.hikmahnews-ad--in_content_1,
+.hikmahnews-ad--in_content_2,
+.hikmahnews-ad--in_content_3 {
+    background: var(--color-gray-50);
+    border: 1px dashed var(--border-color);
+    border-radius: var(--radius-md);
+    padding: var(--space-5);
+    margin: var(--space-8) 0;
+}
+
+.hikmahnews-ad--sidebar_top,
+.hikmahnews-ad--sidebar_mid {
+    background: var(--color-gray-50);
+    border-radius: var(--radius-md);
+    padding: var(--space-3);
+}
+
+.hikmahnews-ad--footer {
+    background: var(--color-gray-900);
+    padding: var(--space-6) 0;
+}
+
+.hikmahnews-ad--footer .hikmahnews-ad__label {
+    color: rgba(255,255,255,0.3);
+}
+
+/* Mobile Sticky */
+.hikmahnews-ad--mobile_sticky {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: var(--bg-surface);
+    box-shadow: 0 -2px 10px rgba(0,0,0,0.15);
+    z-index: 9990;
+    padding: var(--space-2);
+    margin: 0;
+}
+
+.hikmahnews-ad--mobile_sticky .hikmahnews-ad__label {
+    position: absolute;
+    top: 2px;
+    left: 8px;
+    font-size: 8px;
+}
+
+/* Device Targeting */
+.ad--desktop-only {
+    display: block;
+}
+
+.ad--mobile-only {
+    display: none;
+}
+
+@media (max-width: 768px) {
+    .ad--desktop-only {
+        display: none !important;
+    }
+
+    .ad--mobile-only {
+        display: block !important;
+    }
+
+    .hikmahnews-ad--mobile_sticky + .site-footer {
+        padding-bottom: 70px;
+    }
+}
+
+/* Print: hide all ads */
+@media print {
+    .hikmahnews-ad {
+        display: none !important;
+    }
+}
+
+/* ============================================
+   LAST UPDATED NOTICE
+   ============================================ */
+
+.single-updated-notice {
+    background: var(--color-primary-light);
+    border-left: 3px solid var(--color-primary);
+    padding: var(--space-3) var(--space-5);
+    border-radius: 0 var(--radius-md) var(--radius-md) 0;
+    font-size: var(--text-sm);
+    color: var(--text-secondary);
+    margin-bottom: var(--space-6);
+}
+
+.dark-mode .single-updated-notice {
+    background: rgba(220, 38, 38, 0.08);
+}
+/* ============================================
+   LAZY LOADING (Phase 10)
+   ============================================ */
+.hikmahnews-lazy {
+    background: linear-gradient(100deg, #e5e7eb 40%, #f3f4f6 50%, #e5e7eb 60%);
+    background-size: 200% 100%;
+    animation: lazy-shimmer 1.6s infinite linear;
+    min-height: 120px;
+}
+
+@keyframes lazy-shimmer {
+    to { background-position: -200% 0; }
+}
+
+.webp-supported img[data-webp] { transition: filter .3s ease; }
+
+/* ============================================
+   GUTENBERG BLOCKS (Phase 12)
+   ============================================ */
+.hikmahnews-block {
+    margin-bottom: 2rem;
+}
+
+.hikmahnews-block > .section-title {
+    margin-bottom: 1.25rem;
+}
+
+.hikmahnews-block--slider .home-carousel {
+    display: flex;
+    gap: 1rem;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+}
+
+.hikmahnews-block--slider .home-carousel__card {
+    flex: 0 0 320px;
+    scroll-snap-align: start;
+}
+
+.hikmahnews-slider {
+    position: relative;
+}
+
+.hikmahnews-slider-has-arrows .ws-arrow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 5;
+    width: 40px;
+    height: 40px;
+    border: none;
+    border-radius: 50%;
+    background: rgba(17, 24, 39, 0.75);
+    color: #fff;
+    font-size: 20px;
+    line-height: 1;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.hikmahnews-slider-has-arrows .ws-arrow:hover { background: #dc2626; }
+.hikmahnews-slider-has-arrows .ws-prev { left: 10px; }
+.hikmahnews-slider-has-arrows .ws-next { right: 10px; }
+
+.hikmahnews-block--breaking {
+    margin-bottom: 0;
 }

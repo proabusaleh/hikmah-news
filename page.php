@@ -1,7 +1,7 @@
 <?php
 /**
  * Generic Page Template
- * @package WPNews
+ * @package HikmahNews
  */
 if (!defined('ABSPATH')) exit;
 
@@ -24,7 +24,7 @@ get_header();
                     if (has_post_thumbnail()) :
                     ?>
                         <figure class="single-featured-image" style="padding: 0 0 var(--space-6);">
-                            <?php the_post_thumbnail('wpnews-hero'); ?>
+                            <?php the_post_thumbnail('hikmahnews-hero'); ?>
                         </figure>
                     <?php endif; ?>
 

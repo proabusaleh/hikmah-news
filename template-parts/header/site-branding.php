@@ -1,7 +1,7 @@
 <?php
 /**
  * Site Branding — Logo + Search + Mobile Toggle
- * @package WPNews
+ * @package HikmahNews
  */
 if (!defined('ABSPATH')) exit;
 ?>

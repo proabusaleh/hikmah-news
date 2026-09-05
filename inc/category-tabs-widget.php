@@ -4,19 +4,19 @@
  * - AJAX-powered tab switching
  * - Shows Latest / Popular / Trending per category
  * - Perfect for sidebar or homepage sections
- * @package WPNews
+ * @package HikmahNews
  */
 if (!defined('ABSPATH')) exit;
 
 // ============================================
 // 1. WIDGET CLASS
 // ============================================
-class WPNews_Category_Tabs_Widget extends WP_Widget {
+class HikmahNews_Category_Tabs_Widget extends WP_Widget {
 
     public function __construct() {
         parent::__construct(
-            'wpnews_category_tabs',
-            '📰 WP News: Category Tabs',
+            'hikmahnews_category_tabs',
+            '📰 Hikmah News: Category Tabs',
             ['description' => 'Tabbed category news widget (Latest / Popular / Trending)']
         );
     }
@@ -66,7 +66,7 @@ class WPNews_Category_Tabs_Widget extends WP_Widget {
 
             <!-- Content -->
             <div class="cat-tabs-widget__content" id="catTabsContent">
-                <?php echo wpnews_cat_tabs_content($cat_array[0] ?? 'politics', 'latest'); ?>
+                <?php echo hikmahnews_cat_tabs_content($cat_array[0] ?? 'politics', 'latest'); ?>
             </div>
         </div>
         <?php
@@ -102,7 +102,7 @@ class WPNews_Category_Tabs_Widget extends WP_Widget {
 // ============================================
 // 2. AJAX TAB CONTENT
 // ============================================
-function wpnews_cat_tabs_content($slug, $sort = 'latest') {
+function hikmahnews_cat_tabs_content($slug, $sort = 'latest') {
     $args = [
         'category_name'  => $slug,
         'posts_per_page' => 5,
@@ -112,11 +112,11 @@ function wpnews_cat_tabs_content($slug, $sort = 'latest') {
     switch ($sort) {
         case 'popular':
             $args['orderby'] = 'meta_value_num';
-            $args['meta_key'] = '_wpnews_views';
+            $args['meta_key'] = '_hikmahnews_views';
             break;
         case 'trending':
             $args['orderby'] = 'meta_value_num';
-            $args['meta_key'] = '_wpnews_trending_score';
+            $args['meta_key'] = '_hikmahnews_trending_score';
             $args['date_query'] = [['after' => '3 days ago']];
             break;
         default:
@@ -133,7 +133,7 @@ function wpnews_cat_tabs_content($slug, $sort = 'latest') {
             <article class="cat-tab-item">
                 <div class="cat-tab-item__image">
                     <a href="<?php the_permalink(); ?>">
-                        <?php if (has_post_thumbnail()) the_post_thumbnail('wpnews-thumb'); ?>
+                        <?php if (has_post_thumbnail()) the_post_thumbnail('hikmahnews-thumb'); ?>
                     </a>
                 </div>
                 <div class="cat-tab-item__content">
@@ -143,7 +143,7 @@ function wpnews_cat_tabs_content($slug, $sort = 'latest') {
                     <div class="cat-tab-item__meta">
                         <time><?php echo human_time_diff(get_the_time('U'), current_time('timestamp')) . ' ago'; ?></time>
                         <span class="dot"></span>
-                        <span>👁 <?php echo wpnews_get_formatted_views(); ?></span>
+                        <span>👁 <?php echo hikmahnews_get_formatted_views(); ?></span>
                     </div>
                 </div>
             </article>
@@ -158,8 +158,8 @@ function wpnews_cat_tabs_content($slug, $sort = 'latest') {
     return ob_get_clean();
 }
 
-function wpnews_cat_tabs_ajax() {
-    check_ajax_referer('wpnews_nonce', 'nonce');
+function hikmahnews_cat_tabs_ajax() {
+    check_ajax_referer('hikmahnews_nonce', 'nonce');
 
     $slug = sanitize_text_field($_POST['slug'] ?? '');
     $sort = sanitize_text_field($_POST['sort'] ?? 'latest');
@@ -167,17 +167,17 @@ function wpnews_cat_tabs_ajax() {
     if (!$slug) wp_send_json_error('No category');
 
     wp_send_json_success([
-        'html' => wpnews_cat_tabs_content($slug, $sort),
+        'html' => hikmahnews_cat_tabs_content($slug, $sort),
     ]);
 }
-add_action('wp_ajax_wpnews_cat_tabs', 'wpnews_cat_tabs_ajax');
-add_action('wp_ajax_nopriv_wpnews_cat_tabs', 'wpnews_cat_tabs_ajax');
+add_action('wp_ajax_hikmahnews_cat_tabs', 'hikmahnews_cat_tabs_ajax');
+add_action('wp_ajax_nopriv_hikmahnews_cat_tabs', 'hikmahnews_cat_tabs_ajax');
 
 // ============================================
 // 3. TAB JAVASCRIPT
 // ============================================
-function wpnews_cat_tabs_script() {
-    wp_add_inline_script('wpnews-main', '
+function hikmahnews_cat_tabs_script() {
+    wp_add_inline_script('hikmahnews-main', '
     (function() {
         document.addEventListener("click", function(e) {
             var tab = e.target.closest(".cat-tabs-widget__tab, .cat-tabs-widget__subtab");
@@ -211,10 +211,10 @@ function wpnews_cat_tabs_script() {
             // Loading state
             content.style.opacity = "0.4";
 
-            fetch(wpnews_ajax.ajax_url, {
+            fetch(hikmahnews_ajax.ajax_url, {
                 method: "POST",
                 headers: {"Content-Type": "application/x-www-form-urlencoded"},
-                body: "action=wpnews_cat_tabs&nonce=" + wpnews_ajax.nonce + "&slug=" + slug + "&sort=" + sort
+                body: "action=hikmahnews_cat_tabs&nonce=" + hikmahnews_ajax.nonce + "&slug=" + slug + "&sort=" + sort
             })
             .then(function(r) { return r.json(); })
             .then(function(data) {
@@ -227,12 +227,12 @@ function wpnews_cat_tabs_script() {
     })();
     ');
 }
-add_action('wp_enqueue_scripts', 'wpnews_cat_tabs_script');
+add_action('wp_enqueue_scripts', 'hikmahnews_cat_tabs_script');
 
 // ============================================
 // 4. REGISTER WIDGET
 // ============================================
-function wpnews_register_widgets() {
-    register_widget('WPNews_Category_Tabs_Widget');
+function hikmahnews_register_widgets() {
+    register_widget('HikmahNews_Category_Tabs_Widget');
 }
-add_action('widgets_init', 'wpnews_register_widgets');
+add_action('widgets_init', 'hikmahnews_register_widgets');

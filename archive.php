@@ -1,7 +1,7 @@
 <?php
 /**
  * Generic Archive Template (Date, Tag, Author, etc.)
- * @package WPNews
+ * @package HikmahNews
  */
 if (!defined('ABSPATH')) exit;
 
@@ -38,7 +38,7 @@ get_header();
                     <article class="news-card">
                         <div class="news-card__image">
                             <a href="<?php the_permalink(); ?>">
-                                <?php if (has_post_thumbnail()) the_post_thumbnail('wpnews-grid'); ?>
+                                <?php if (has_post_thumbnail()) the_post_thumbnail('hikmahnews-grid'); ?>
                             </a>
                         </div>
                         <div class="news-card__body">

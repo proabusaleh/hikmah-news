@@ -1,7 +1,7 @@
 <?php
 /**
  * Sidebar Template
- * @package WPNews
+ * @package HikmahNews
  */
 if (!defined('ABSPATH')) exit;
 

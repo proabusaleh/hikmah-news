@@ -1,0 +1,70 @@
+# Copyright (C) 2025 Hikmah News Theme
+# This file is distributed under the GNU General Public License v2 or later.
+msgid ""
+msgstr ""
+"Project-Id-Version: Hikmah News Theme 2.0.0\n"
+"Report-Msgid-Bugs-To: https://example.com\n"
+"POT-Creation-Date: 2025-01-15 00:00+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: functions.php
+msgid "Primary Menu"
+msgstr ""
+
+#: functions.php
+msgid "Top Bar Menu"
+msgstr ""
+
+#: template-parts/content/hero.php
+msgid "Latest News"
+msgstr ""
+
+#: template-parts/content/popular-trending.php
+msgid "Most Popular"
+msgstr ""
+
+#: template-parts/content/popular-trending.php
+msgid "Trending Now"
+msgstr ""
+
+#: single.php
+msgid "Share:"
+msgstr ""
+
+#: single.php
+msgid "Related Articles"
+msgstr ""
+
+#: comments.php
+msgid "Leave a Comment"
+msgstr ""
+
+#: 404.php
+msgid "Page Not Found"
+msgstr ""
+
+#: search.php
+msgid "Search Results"
+msgstr ""
+
+#: search.php
+msgid "No results found"
+msgstr ""
+
+#: inc/gutenberg/editor.js
+msgid "Number of Posts"
+msgstr ""
+
+#: inc/gutenberg/editor.js
+msgid "Category"
+msgstr ""
+
+#: inc/gutenberg/editor.js
+msgid "Show Excerpt"
+msgstr ""

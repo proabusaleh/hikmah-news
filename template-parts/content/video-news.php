@@ -1,7 +1,7 @@
 <?php
 /**
  * Video News Section
- * @package WPNews
+ * @package HikmahNews
  */
 if (!defined('ABSPATH')) exit;
 
@@ -35,7 +35,7 @@ if (!$video_query->have_posts()) return;
                     <a href="<?php the_permalink(); ?>" class="video-card__link">
                         <div class="video-card__thumbnail">
                             <?php if (has_post_thumbnail()) : ?>
-                                <?php the_post_thumbnail('wpnews-grid'); ?>
+                                <?php the_post_thumbnail('hikmahnews-grid'); ?>
                             <?php endif; ?>
                             <div class="video-card__play">
                                 <svg width="48" height="48" viewBox="0 0 24 24" fill="white">

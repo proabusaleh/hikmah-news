@@ -5,43 +5,43 @@
  * - Drag-and-drop section ordering
  * - Per-section layout selection
  * - Dynamic rendering
- * @package WPNews
+ * @package HikmahNews
  */
 if (!defined('ABSPATH')) exit;
 
 // ============================================
 // 1. CUSTOMIZER: Homepage Sections
 // ============================================
-function wpnews_homepage_builder_customize($wp_customize) {
+function hikmahnews_homepage_builder_customize($wp_customize) {
 
-    $wp_customize->add_section('wpnews_homepage_builder', [
+    $wp_customize->add_section('hikmahnews_homepage_builder', [
         'title'    => '🏠 Homepage Builder',
-        'panel'    => 'wpnews_options',
+        'panel'    => 'hikmahnews_options',
         'priority' => 25,
     ]);
 
     // --- Section Order ---
-    $wp_customize->add_setting('wpnews_home_sections', [
+    $wp_customize->add_setting('hikmahnews_home_sections', [
         'default'           => 'hero,latest,politics,business,sports,technology,trending,video,newsletter',
         'sanitize_callback' => 'sanitize_text_field',
     ]);
 
-    $wp_customize->add_control('wpnews_home_sections', [
+    $wp_customize->add_control('hikmahnews_home_sections', [
         'label'       => 'Section Order (comma-separated)',
         'description' => 'Available: hero, latest, politics, business, sports, technology, entertainment, health, opinion, trending, video, gallery, newsletter, spotlight',
-        'section'     => 'wpnews_homepage_builder',
+        'section'     => 'hikmahnews_homepage_builder',
         'type'        => 'text',
     ]);
 
     // --- Posts Per Section ---
-    $wp_customize->add_setting('wpnews_home_posts_per_section', [
+    $wp_customize->add_setting('hikmahnews_home_posts_per_section', [
         'default'           => 5,
         'sanitize_callback' => 'absint',
     ]);
 
-    $wp_customize->add_control('wpnews_home_posts_per_section', [
+    $wp_customize->add_control('hikmahnews_home_posts_per_section', [
         'label'   => 'Posts Per Category Section',
-        'section' => 'wpnews_homepage_builder',
+        'section' => 'hikmahnews_homepage_builder',
         'type'    => 'number',
         'input_attrs' => ['min' => 3, 'max' => 10],
     ]);
@@ -57,14 +57,14 @@ function wpnews_homepage_builder_customize($wp_customize) {
     ];
 
     foreach ($toggle_sections as $key => $label) {
-        $wp_customize->add_setting("wpnews_show_{$key}", [
+        $wp_customize->add_setting("hikmahnews_show_{$key}", [
             'default'           => true,
-            'sanitize_callback' => 'wpnews_sanitize_checkbox',
+            'sanitize_callback' => 'hikmahnews_sanitize_checkbox',
         ]);
 
-        $wp_customize->add_control("wpnews_show_{$key}", [
+        $wp_customize->add_control("hikmahnews_show_{$key}", [
             'label'   => "Show {$label}",
-            'section' => 'wpnews_homepage_builder',
+            'section' => 'hikmahnews_homepage_builder',
             'type'    => 'checkbox',
         ]);
     }
@@ -72,14 +72,14 @@ function wpnews_homepage_builder_customize($wp_customize) {
     // --- Category Layout Per Section ---
     $parent_cats = get_categories(['parent' => 0, 'hide_empty' => false, 'number' => 10]);
     foreach ($parent_cats as $cat) {
-        $wp_customize->add_setting("wpnews_cat_layout_{$cat->slug}", [
+        $wp_customize->add_setting("hikmahnews_cat_layout_{$cat->slug}", [
             'default'           => 'grid',
             'sanitize_callback' => 'sanitize_text_field',
         ]);
 
-        $wp_customize->add_control("wpnews_cat_layout_{$cat->slug}", [
+        $wp_customize->add_control("hikmahnews_cat_layout_{$cat->slug}", [
             'label'   => "{$cat->name} Layout",
-            'section' => 'wpnews_homepage_builder',
+            'section' => 'hikmahnews_homepage_builder',
             'type'    => 'select',
             'choices' => [
                 'grid'      => '📰 Grid (3 columns)',
@@ -90,62 +90,66 @@ function wpnews_homepage_builder_customize($wp_customize) {
         ]);
     }
 }
-add_action('customize_register', 'wpnews_homepage_builder_customize');
+add_action('customize_register', 'hikmahnews_homepage_builder_customize');
 
 // ============================================
 // 2. DYNAMIC HOMEPAGE RENDERER
 // ============================================
-function wpnews_render_homepage() {
-    $sections_str = get_theme_mod('wpnews_home_sections',
+function hikmahnews_render_homepage() {
+    $sections_str = get_theme_mod('hikmahnews_home_sections',
         'hero,latest,politics,business,sports,technology,trending,video,newsletter');
     $sections = array_map('trim', explode(',', $sections_str));
-    $posts_per = get_theme_mod('wpnews_home_posts_per_section', 5);
+    $posts_per = get_theme_mod('hikmahnews_home_posts_per_section', 5);
 
     foreach ($sections as $section) {
         switch ($section) {
             case 'hero':
-                if (get_theme_mod('wpnews_show_hero', true)) {
+                if (get_theme_mod('hikmahnews_show_hero', true)) {
                     get_template_part('template-parts/content/hero');
+                    do_action('hikmahnews_after_hero');
                 }
                 break;
 
             case 'latest':
                 get_template_part('template-parts/content/latest-news');
+                if (function_exists('hikmahnews_homepage_mid_ad')) {
+                    hikmahnews_homepage_mid_ad();
+                }
                 break;
 
             case 'spotlight':
-                if (get_theme_mod('wpnews_show_spotlight', true)) {
-                    wpnews_spotlight_section();
+                if (get_theme_mod('hikmahnews_show_spotlight', true)) {
+                    hikmahnews_spotlight_section();
                 }
                 break;
 
             case 'trending':
-                if (get_theme_mod('wpnews_show_trending', true)) {
-                    wpnews_trending_section();
+                if (get_theme_mod('hikmahnews_show_trending', true)) {
+                    hikmahnews_trending_section();
                 }
                 break;
 
             case 'video':
-                if (get_theme_mod('wpnews_show_video', true)) {
+                if (get_theme_mod('hikmahnews_show_video', true)) {
                     get_template_part('template-parts/content/video-news');
                 }
                 break;
 
             case 'gallery':
-                if (get_theme_mod('wpnews_show_gallery', true)) {
+                if (get_theme_mod('hikmahnews_show_gallery', true)) {
                     get_template_part('template-parts/content/photo-gallery');
                 }
                 break;
 
             case 'newsletter':
-                if (get_theme_mod('wpnews_show_newsletter', true)) {
+                if (get_theme_mod('hikmahnews_show_newsletter', true)) {
                     get_template_part('template-parts/content/newsletter');
                 }
                 break;
 
             default:
                 // It's a category slug
-                wpnews_render_category_section($section, $posts_per);
+                hikmahnews_render_category_section($section, $posts_per);
                 break;
         }
     }
@@ -154,13 +158,13 @@ function wpnews_render_homepage() {
 // ============================================
 // 3. CATEGORY SECTION RENDERER (Multiple Layouts)
 // ============================================
-function wpnews_render_category_section($slug, $count = 5) {
+function hikmahnews_render_category_section($slug, $count = 5) {
     $category = get_category_by_slug($slug);
     if (!$category || $category->count === 0) return;
 
-    $color = wpnews_get_category_color($category->term_id);
-    $icon = wpnews_get_category_icon($category->term_id);
-    $layout = get_theme_mod("wpnews_cat_layout_{$slug}", 'grid');
+    $color = hikmahnews_get_category_color($category->term_id);
+    $icon = hikmahnews_get_category_icon($category->term_id);
+    $layout = get_theme_mod("hikmahnews_cat_layout_{$slug}", 'grid');
 
     $query = new WP_Query([
         'category_name'  => $slug,
@@ -198,7 +202,7 @@ function wpnews_render_category_section($slug, $count = 5) {
                         <article class="news-card">
                             <div class="news-card__image">
                                 <a href="<?php the_permalink(); ?>">
-                                    <?php if (has_post_thumbnail()) the_post_thumbnail('wpnews-grid'); ?>
+                                    <?php if (has_post_thumbnail()) the_post_thumbnail('hikmahnews-grid'); ?>
                                 </a>
                                 <span class="badge news-card__badge"
                                       style="background: <?php echo esc_attr($color); ?>;">
@@ -217,7 +221,7 @@ function wpnews_render_category_section($slug, $count = 5) {
                                     <span class="dot"></span>
                                     <time><?php echo human_time_diff(get_the_time('U'), current_time('timestamp')) . ' ago'; ?></time>
                                     <span class="dot"></span>
-                                    <span>👁 <?php echo wpnews_get_formatted_views(); ?></span>
+                                    <span>👁 <?php echo hikmahnews_get_formatted_views(); ?></span>
                                 </div>
                             </div>
                         </article>
@@ -231,7 +235,7 @@ function wpnews_render_category_section($slug, $count = 5) {
                     <article class="cat-block-featured">
                         <a href="<?php the_permalink(); ?>" class="cat-block-featured__link">
                             <div class="cat-block-featured__image">
-                                <?php if (has_post_thumbnail()) the_post_thumbnail('wpnews-grid'); ?>
+                                <?php if (has_post_thumbnail()) the_post_thumbnail('hikmahnews-grid'); ?>
                                 <div class="cat-block-featured__overlay"></div>
                             </div>
                             <div class="cat-block-featured__content">
@@ -247,7 +251,7 @@ function wpnews_render_category_section($slug, $count = 5) {
                             <article class="news-list-card">
                                 <div class="news-list-card__image">
                                     <a href="<?php the_permalink(); ?>">
-                                        <?php if (has_post_thumbnail()) the_post_thumbnail('wpnews-thumb'); ?>
+                                        <?php if (has_post_thumbnail()) the_post_thumbnail('hikmahnews-thumb'); ?>
                                     </a>
                                 </div>
                                 <div class="news-list-card__body">
@@ -283,7 +287,7 @@ function wpnews_render_category_section($slug, $count = 5) {
                                     <div class="numbered-item__meta">
                                         <time><?php echo human_time_diff(get_the_time('U'), current_time('timestamp')) . ' ago'; ?></time>
                                         <span class="dot"></span>
-                                        <span>👁 <?php echo wpnews_get_formatted_views(); ?></span>
+                                        <span>👁 <?php echo hikmahnews_get_formatted_views(); ?></span>
                                     </div>
                                 </div>
                             </article>
@@ -298,7 +302,7 @@ function wpnews_render_category_section($slug, $count = 5) {
                         <article class="news-card home-carousel__card">
                             <div class="news-card__image">
                                 <a href="<?php the_permalink(); ?>">
-                                    <?php if (has_post_thumbnail()) the_post_thumbnail('wpnews-grid'); ?>
+                                    <?php if (has_post_thumbnail()) the_post_thumbnail('hikmahnews-grid'); ?>
                                 </a>
                             </div>
                             <div class="news-card__body">

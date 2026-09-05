@@ -4,15 +4,15 @@
  * - Infinite scroll OR "Load More" button
  * - Works on homepage, category, archive, search
  * - Respects all query parameters
- * @package WPNews
+ * @package HikmahNews
  */
 if (!defined('ABSPATH')) exit;
 
 // ============================================
 // 1. AJAX HANDLER
 // ============================================
-function wpnews_load_more_posts() {
-    check_ajax_referer('wpnews_nonce', 'nonce');
+function hikmahnews_load_more_posts() {
+    check_ajax_referer('hikmahnews_nonce', 'nonce');
 
     $page      = absint($_POST['page'] ?? 1);
     $per_page  = absint($_POST['per_page'] ?? 6);
@@ -57,7 +57,7 @@ function wpnews_load_more_posts() {
                 <article class="news-list-card">
                     <div class="news-list-card__image">
                         <a href="<?php the_permalink(); ?>">
-                            <?php if (has_post_thumbnail()) the_post_thumbnail('wpnews-thumb'); ?>
+                            <?php if (has_post_thumbnail()) the_post_thumbnail('hikmahnews-thumb'); ?>
                         </a>
                     </div>
                     <div class="news-list-card__body">
@@ -75,7 +75,7 @@ function wpnews_load_more_posts() {
                             <span class="dot"></span>
                             <time><?php echo human_time_diff(get_the_time('U'), current_time('timestamp')) . ' ago'; ?></time>
                             <span class="dot"></span>
-                            <span>👁 <?php echo wpnews_get_formatted_views(); ?></span>
+                            <span>👁 <?php echo hikmahnews_get_formatted_views(); ?></span>
                         </div>
                     </div>
                 </article>
@@ -85,7 +85,7 @@ function wpnews_load_more_posts() {
                 <article class="news-card">
                     <div class="news-card__image">
                         <a href="<?php the_permalink(); ?>">
-                            <?php if (has_post_thumbnail()) the_post_thumbnail('wpnews-grid'); ?>
+                            <?php if (has_post_thumbnail()) the_post_thumbnail('hikmahnews-grid'); ?>
                         </a>
                         <?php
                         $cats = get_the_category();
@@ -109,8 +109,8 @@ function wpnews_load_more_posts() {
                             <span class="dot"></span>
                             <time><?php echo human_time_diff(get_the_time('U'), current_time('timestamp')) . ' ago'; ?></time>
                             <span class="dot"></span>
-                            <span>👁 <?php echo wpnews_get_formatted_views(); ?></span>
-                            <?php wpnews_bookmark_button(); ?>
+                            <span>👁 <?php echo hikmahnews_get_formatted_views(); ?></span>
+                            <?php hikmahnews_bookmark_button(); ?>
                         </div>
                     </div>
                 </article>
@@ -130,13 +130,13 @@ function wpnews_load_more_posts() {
         'has_more'  => $page < $query->max_num_pages,
     ]);
 }
-add_action('wp_ajax_wpnews_load_more', 'wpnews_load_more_posts');
-add_action('wp_ajax_nopriv_wpnews_load_more', 'wpnews_load_more_posts');
+add_action('wp_ajax_hikmahnews_load_more', 'hikmahnews_load_more_posts');
+add_action('wp_ajax_nopriv_hikmahnews_load_more', 'hikmahnews_load_more_posts');
 
 // ============================================
 // 2. LOAD MORE BUTTON COMPONENT
 // ============================================
-function wpnews_load_more_button($args = []) {
+function hikmahnews_load_more_button($args = []) {
     $defaults = [
         'max_pages'  => 1,
         'per_page'   => 6,
@@ -176,8 +176,8 @@ function wpnews_load_more_button($args = []) {
 // ============================================
 // 3. LOAD MORE JAVASCRIPT
 // ============================================
-function wpnews_load_more_script() {
-    wp_add_inline_script('wpnews-main', '
+function hikmahnews_load_more_script() {
+    wp_add_inline_script('hikmahnews-main', '
     (function() {
         document.addEventListener("click", function(e) {
             var btn = e.target.closest(".load-more-btn");
@@ -198,8 +198,8 @@ function wpnews_load_more_script() {
             loadEl.style.display = "inline-flex";
 
             var formData = new URLSearchParams({
-                action: "wpnews_load_more",
-                nonce: wpnews_ajax.nonce,
+                action: "hikmahnews_load_more",
+                nonce: hikmahnews_ajax.nonce,
                 page: page,
                 per_page: btn.dataset.perPage,
                 category: btn.dataset.category,
@@ -207,7 +207,7 @@ function wpnews_load_more_script() {
                 offset: btn.dataset.offset || "0"
             });
 
-            fetch(wpnews_ajax.ajax_url, {
+            fetch(hikmahnews_ajax.ajax_url, {
                 method: "POST",
                 headers: {"Content-Type": "application/x-www-form-urlencoded"},
                 body: formData.toString()
@@ -257,4 +257,4 @@ function wpnews_load_more_script() {
     })();
     ');
 }
-add_action('wp_enqueue_scripts', 'wpnews_load_more_script');
+add_action('wp_enqueue_scripts', 'hikmahnews_load_more_script');

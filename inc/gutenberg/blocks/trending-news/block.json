@@ -1,0 +1,26 @@
+{
+    "$schema": "https://schemas.wp.org/trunk/block.json",
+    "apiVersion": 3,
+    "name": "hikmahnews/trending-news",
+    "version": "1.0.0",
+    "title": "Trending News",
+    "category": "hikmahnews-blocks",
+    "icon": "chart-line",
+    "description": "Algorithm-based trending news stories.",
+    "keywords": ["news", "trending", "hot", "algorithm"],
+    "supports": {
+        "html": false,
+        "align": ["wide", "full"]
+    },
+    "attributes": {
+        "postCount":   { "type": "number", "default": 6 },
+        "columns":     { "type": "number", "default": 3 },
+        "showExcerpt": { "type": "boolean", "default": true },
+        "showViews":   { "type": "boolean", "default": true },
+        "title":       { "type": "string", "default": "Trending Now" }
+    },
+    "textdomain": "hikmahnews",
+    "editorScript": "hikmahnews-blocks-editor",
+    "editorStyle": "hikmahnews-blocks-editor",
+    "style": "hikmahnews-main"
+}
