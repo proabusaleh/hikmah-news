@@ -2,7 +2,7 @@
 /**
  * Hikmah News Theme - Main Functions
  * @package HikmahNews
- * @version 2.0.0
+ * @version 2.1.0
  */
 
 if (!defined('ABSPATH')) exit;
@@ -10,7 +10,7 @@ if (!defined('ABSPATH')) exit;
 // ============================================
 // 1. THEME CONSTANTS
 // ============================================
-define('HIKMAHNEWS_VERSION', '2.0.0');
+define('HIKMAHNEWS_VERSION', '2.1.0');
 define('HIKMAHNEWS_DIR', get_template_directory());
 define('HIKMAHNEWS_URI', get_template_directory_uri());
 
@@ -172,6 +172,8 @@ require_once HIKMAHNEWS_DIR . '/inc/perf-advanced.php';
 require_once HIKMAHNEWS_DIR . '/inc/theme-options-panel.php';
 require_once HIKMAHNEWS_DIR . '/inc/theme-options-tabs-1.php';
 require_once HIKMAHNEWS_DIR . '/inc/theme-options-tabs-2.php';
+require_once HIKMAHNEWS_DIR . '/inc/theme-options-updates.php';
+require_once HIKMAHNEWS_DIR . '/inc/theme-updater.php';
 require_once HIKMAHNEWS_DIR . '/inc/admin-enhancements.php';
 
 // ============================================

@@ -1,9 +1,9 @@
 === Hikmah News Theme ===
-Contributors: yourusername
+Contributors: Abu Saleh
 Requires at least: 6.0
 Tested up to: 6.5
 Requires PHP: 7.4
-Stable tag: 2.0.0
+Stable tag: 2.1.0
 License: GNU General Public License v2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Tags: news, blog, magazine, dark-mode, responsive, gutenberg, rtl, translation-ready
@@ -53,7 +53,7 @@ Hikmah News is a professional, feature-rich news portal theme designed for moder
 
 = Admin Panels =
 
-* ⚙️ Theme Options (15 tabs)
+* ⚙️ Theme Options (16 tabs)
 * 💰 Ad Manager (13 positions)
 * 🔔 Push Notification Settings
 * 📊 Dashboard Stats Widget
@@ -85,6 +85,19 @@ Yes. Full RTL support and translation-ready (.pot file included).
 
 == Changelog ==
 
+= 2.1.0 =
+* 🔄 Theme Updater — check GitHub/Custom API for new versions
+* 🐙 GitHub Releases integration with optional token for private repos
+* 🌐 Custom API server support
+* ⚡ AJAX quick check without page reload
+* 🔔 Admin update notice with changelog modal + repo/release links
+* ⬆️ Auto-update for minor versions only (major = manual)
+* 💾 Automatic settings backup before update (keeps last 3)
+* 📧 Email notification when an update is available
+* 🗄️ Automatic database migrations on version change
+* ⏱️ Configurable check interval (6h / 12h / 24h / 72h)
+* 🔒 Rate-limited update checks with transient caching
+
 = 2.0.0 =
 * Initial release
 * 47 features across 11 phases
@@ -94,6 +107,9 @@ Yes. Full RTL support and translation-ready (.pot file included).
 * Performance optimization
 
 == Upgrade Notice ==
+
+= 2.1.0 =
+Adds theme self-update system with GitHub/Custom API support.
 
 = 2.0.0 =
 Initial release.

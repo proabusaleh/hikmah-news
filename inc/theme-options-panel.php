@@ -159,6 +159,7 @@ function hikmahnews_options_tabs() {
         'newsletter'   => ['icon' => '📬', 'label' => 'Newsletter',       'description' => 'Newsletter integration and popup settings.'],
         'seo'          => ['icon' => '🔍', 'label' => 'SEO',              'description' => 'Meta tags, schema, Open Graph, and sitemap.'],
         'performance'  => ['icon' => '⚡', 'label' => 'Performance',      'description' => 'Caching, CDN, lazy loading, and Core Web Vitals.'],
+        'updates'      => ['icon' => '🔄', 'label' => 'Updates',          'description' => 'Theme update source, auto-update, backup, and version management.'],
         'import_export'=> ['icon' => '📦', 'label' => 'Import / Export',  'description' => 'Backup and restore theme settings.'],
     ];
 }
@@ -271,6 +272,15 @@ function hikmahnews_default_options() {
             'debug_vitals'     => '0',
             'minify_html'      => '0',
         ],
+        'updates' => [
+            'source'         => 'github',
+            'github_repo'    => '',
+            'api_url'        => '',
+            'check_interval' => '12',
+            'auto_update'    => '0',
+            'backup_before'  => '1',
+            'email_notify'   => '0',
+        ],
     ];
 }
 
@@ -299,6 +309,11 @@ function hikmahnews_save_options($post_data) {
     }
 
     update_option('hikmahnews_theme_options', $options);
+
+    // Save separate GitHub token (stored independently, not in options array)
+    if ($tab === 'updates' && isset($post_data['hikmahnews_github_token'])) {
+        update_option('hikmahnews_github_token', sanitize_text_field($post_data['hikmahnews_github_token']));
+    }
 
     // Regenerate critical CSS if performance settings changed
     if ($tab === 'performance') {
