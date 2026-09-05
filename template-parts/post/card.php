@@ -1,0 +1,1 @@
+<article <?php post_class('news-card'); ?>><?php if(has_post_thumbnail()): ?><a href="<?php the_permalink(); ?>"><?php the_post_thumbnail('medium_large'); ?></a><?php endif; ?><div class="card-body"><?php the_category(', '); ?><h2><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h2><div class="meta"><?php hikmah_news_post_meta(); ?></div></div></article>

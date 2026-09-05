@@ -1,0 +1,1 @@
+<?php // Related post component.

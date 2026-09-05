@@ -1,0 +1,1 @@
+<section class="section"><div class="container"><h2><?php esc_html_e('Trending','hikmah-news'); ?></h2><ol><?php $q=new WP_Query(['posts_per_page'=>5]); while($q->have_posts()):$q->the_post(); ?><li><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></li><?php endwhile; wp_reset_postdata(); ?></ol></div></section>

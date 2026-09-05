@@ -1,0 +1,1 @@
+<?php // SEO compatibility helpers.

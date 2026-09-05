@@ -1,0 +1,1 @@
+<article class="news-horizontal"><?php if(has_post_thumbnail()) the_post_thumbnail('thumbnail'); ?><div><h3><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h3><?php hikmah_news_post_meta(); ?></div></article>

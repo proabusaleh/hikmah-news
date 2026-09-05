@@ -1,0 +1,1 @@
+<section class="section"><div class="container"><h2><?php esc_html_e('Latest News','hikmah-news'); ?></h2><div class="post-grid"><?php $q=new WP_Query(['posts_per_page'=>8]); while($q->have_posts()):$q->the_post(); get_template_part('template-parts/post/card'); endwhile; wp_reset_postdata(); ?></div></div></section>

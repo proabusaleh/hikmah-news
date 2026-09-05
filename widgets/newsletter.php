@@ -1,0 +1,1 @@
+<?php // Newsletter widget placeholder.

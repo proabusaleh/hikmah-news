@@ -1,0 +1,1 @@
+<section class="newsletter"><div class="container"><h2><?php esc_html_e('Subscribe to our newsletter','hikmah-news'); ?></h2><p><?php esc_html_e('Get the latest news in your inbox.','hikmah-news'); ?></p></div></section>

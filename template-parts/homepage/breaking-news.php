@@ -1,0 +1,1 @@
+<section class="breaking-news"><div class="container"><strong><?php esc_html_e('Breaking','hikmah-news'); ?></strong><span><?php $q=new WP_Query(['posts_per_page'=>1]); if($q->have_posts()): $q->the_post(); the_title(); wp_reset_postdata(); endif; ?></span></div></section>
