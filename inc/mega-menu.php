@@ -159,5 +159,10 @@ function hikmahnews_fallback_mega_menu() {
         echo '</li>';
     }
 
+    foreach (hikmahnews_extra_nav_links() as $link) {
+        echo '<li class="menu-item"><a href="' . esc_url($link['url']) . '">'
+             . esc_html($link['label']) . '</a></li>';
+    }
+
     echo '</ul>';
 }

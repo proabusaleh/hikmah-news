@@ -187,6 +187,7 @@ function hikmahnews_default_options() {
             'sticky_nav'       => '1',
             'search_style'     => 'overlay',
             'header_ad'        => '0',
+            'extra_nav_links'  => '',
         ],
         'homepage' => [
             'sections'         => 'hero,latest,politics,business,sports,technology,trending,newsletter',

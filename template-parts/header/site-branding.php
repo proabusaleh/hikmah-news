@@ -15,8 +15,7 @@ if (!defined('ABSPATH')) exit;
                 <?php the_custom_logo(); ?>
             <?php else : ?>
                 <a href="<?php echo esc_url(home_url('/')); ?>" class="site-logo-text">
-                    <span class="site-logo-text__wp">WP</span>
-                    <span class="site-logo-text__news">News</span>
+                    <?php hikmahnews_logo_words(); ?>
                 </a>
             <?php endif; ?>
         </div>

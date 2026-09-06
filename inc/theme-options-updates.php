@@ -263,7 +263,7 @@ function hikmahnews_options_tab_updates($options) {
 }
 
 function hikmahnews_auto_update_filter($update, $item) {
-    if ($item->type !== 'theme') return $update;
+    if (!isset($item->type) || $item->type !== 'theme') return $update;
 
     $theme = wp_get_theme();
     if ($item->theme !== $theme->get_stylesheet()) return $update;

@@ -27,8 +27,8 @@ if (!defined('ABSPATH')) exit;
 <div class="mobile-drawer" id="mobileDrawer">
     <div class="mobile-drawer__header">
         <span class="site-logo-text">
-            <span class="site-logo-text__wp">WP</span>
-            <span class="site-logo-text__news">News</span>
+            <span class="site-logo-text__wp">Save Our Muslim</span>
+            <span class="site-logo-text__news">Sister</span>
         </span>
         <button class="mobile-drawer__close" id="mobileClose" aria-label="Close menu">
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
@@ -39,14 +39,7 @@ if (!defined('ABSPATH')) exit;
         </button>
     </div>
     <nav class="mobile-drawer__nav">
-        <?php
-        wp_nav_menu([
-            'theme_location' => 'primary',
-            'container'      => false,
-            'menu_class'     => 'mobile-nav__list',
-            'fallback_cb'    => false,
-        ]);
-        ?>
+        <?php hikmahnews_mobile_nav(); ?>
     </nav>
 </div>
 <div class="mobile-overlay" id="mobileOverlay"></div>

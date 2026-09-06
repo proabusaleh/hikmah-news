@@ -120,10 +120,16 @@ add_action('init', 'hikmahnews_clean_head');
 // 4. DEFER NON-CRITICAL JAVASCRIPT
 // ============================================
 function hikmahnews_defer_scripts($tag, $handle, $src) {
+    // Skip the admin area entirely — deferred scripts break core's
+    // synchronous inline -js-after/-extra blocks (wp.i18n, wp.data, etc).
+    if (is_admin()) return $tag;
+
     // Don't defer these
     $no_defer = ['jquery', 'jquery-core', 'jquery-migrate', 'hikmahnews-main'];
 
-    if (in_array($handle, $no_defer)) return $tag;
+    // Core packages load with inline scripts that depend on the library
+    // already being evaluated — leave them untouched on the frontend too.
+    if (in_array($handle, $no_defer) || strpos($handle, 'wp-') === 0) return $tag;
 
     // Add defer to all other scripts
     if (strpos($tag, 'defer') === false && strpos($tag, 'async') === false) {

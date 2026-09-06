@@ -158,6 +158,20 @@ function hikmahnews_options_tab_header($options) {
                    Show ad banner in header</label>
         </td>
     </tr>
+    <tr>
+        <th>Extra Navbar Links</th>
+        <td>
+            <textarea name="hikmahnews_header_extra_nav_links" class="large-text" rows="5"
+                      placeholder="About | https://example.com/about&#10;Contact | https://example.com/contact"><?php
+                echo esc_textarea($o['extra_nav_links'] ?? '');
+            ?></textarea>
+            <p class="description">
+                Dynamically add links to the navbar. One per line, format:
+                <code>Label | URL</code>. Links are appended to the primary menu
+                (desktop + mobile).
+            </p>
+        </td>
+    </tr>
     <?php
 }
 
