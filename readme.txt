@@ -3,7 +3,7 @@ Contributors: Abu Saleh
 Requires at least: 6.0
 Tested up to: 6.5
 Requires PHP: 7.4
-Stable tag: 2.1.0
+Stable tag: 3.0.0
 License: GNU General Public License v2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Tags: news, blog, magazine, dark-mode, responsive, gutenberg, rtl, translation-ready
@@ -85,6 +85,36 @@ Yes. Full RTL support and translation-ready (.pot file included).
 
 == Changelog ==
 
+= 3.0.0 =
+* ✨ Modern design system (Bento grid, glassmorphism, gradient accents)
+* 🏠 Modern Homepage template (front-page-modern.php)
+* 📄 Modern Single Post template (single-modern.php)
+* 🎨 Design Style switcher (Modern / Classic / Minimal)
+* 🍪 GDPR/CCPA cookie consent banner
+* ♿ Accessibility suite (skip links, focus visible, reduced motion, focus trap)
+* 🔠 Font size toggle (A- / A / A+)
+* 🖨️ Clean print stylesheet
+* 📲 PWA support (manifest, service worker, offline page, install prompt)
+* 🔒 Content paywall with premium flag + free article limit
+* 🔴 Live blog / live coverage system (CPT + AJAX auto-refresh)
+* 🎙️ Podcast player shortcode
+* 📈 Stock ticker + 🌤️ weather widget
+* 📋 Auto table of contents (3+ heading threshold)
+* 🗳️ AJAX polls shortcode with persistent results
+* 👀 Social proof ("people reading now")
+* 👥 Co-authors / multi-author support
+* 🕘 Reading history for logged-in users
+* 🌃 Dark mode schedule (8PM–7AM)
+* 👍 Comment reactions (like / love / dislike) with AJAX
+* 🏷️ Fact-check labels (verified / misleading / false / unverified / satire)
+* 📸 Instagram feed widget
+* 🌍 WPML/Polylang compatibility
+* 📰 Facebook Instant Articles RSS feed
+* 🍏 Apple News format feed
+* 💳 WooCommerce Subscriptions gate for premium content
+* 🤖 AI content suggestions ("You might also like")
+* 🧱 theme.json (FSE styles, color palette, typography)
+
 = 2.1.0 =
 * 🔄 Theme Updater — check GitHub/Custom API for new versions
 * 🐙 GitHub Releases integration with optional token for private repos
@@ -107,6 +137,9 @@ Yes. Full RTL support and translation-ready (.pot file included).
 * Performance optimization
 
 == Upgrade Notice ==
+
+= 3.0.0 =
+Major release: modern bento/glassmorphism templates, PWA, paywall, live blog, polls, TOC, a11y, cookies, and integrations. Theme defaults to the new Modern design — switch back via Theme Options → General → Design Style.
 
 = 2.1.0 =
 Adds theme self-update system with GitHub/Custom API support.

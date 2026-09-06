@@ -178,6 +178,7 @@ function hikmahnews_default_options() {
             'post_views'       => '1',
             'breadcrumb'       => '1',
             'back_to_top'      => '1',
+            'design_style'     => 'modern',
         ],
         'header' => [
             'topbar_enabled'   => '1',
@@ -271,6 +272,11 @@ function hikmahnews_default_options() {
             'cdn_url'          => '',
             'debug_vitals'     => '0',
             'minify_html'      => '0',
+        ],
+        'widgets' => [
+            'stock_symbols'    => 'DSE:BATBC,DSE:GP,NYSE:AAPL,NASDAQ:GOOGL',
+            'weather_city'     => 'Dhaka',
+            'weather_api_key'  => '',
         ],
         'updates' => [
             'source'         => 'github',

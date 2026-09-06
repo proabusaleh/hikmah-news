@@ -1,0 +1,108 @@
+/* ============================================
+   HIKMAH NEWS — FEATURE COMPONENT STYLES
+   Paywall · Live Blog · TOC · Poll · AI Suggestions
+   Works in both Classic and Modern design styles
+   (uses --modern-* vars with theme fallbacks)
+   ============================================ */
+
+/* ---------- PAYWALL OVERLAY ---------- */
+.paywall-overlay { position: relative; margin-top: -100px; }
+.paywall-overlay__blur {
+    position: absolute; top: -200px; left: 0; right: 0; height: 200px;
+    background: linear-gradient(to bottom, transparent, var(--modern-surface, #fff)); z-index: 1;
+}
+.paywall-overlay__inner { position: relative; z-index: 2; }
+.paywall-overlay__content {
+    text-align: center; padding: 40px 24px; background: var(--modern-surface, #fff);
+    border: 2px dashed var(--modern-border, #e5e5e5); border-radius: 16px;
+}
+.paywall-overlay__content h3 { font-size: 24px; margin: 12px 0 8px; }
+.paywall-overlay__content p { color: var(--modern-text-2, #525252); font-size: 15px; }
+
+/* ---------- LIVE BLOG ---------- */
+.live-blog {
+    background: var(--modern-surface, #fff); border-radius: 16px;
+    border: 2px solid var(--modern-border, #e5e5e5); overflow: hidden; margin: 24px 0;
+}
+.live-blog__header {
+    padding: 20px 24px; background: var(--modern-surface-2, #f5f5f5);
+    border-bottom: 1px solid var(--modern-border, #e5e5e5);
+}
+.live-blog__header .live-blog__title { font-size: 20px; margin: 8px 0 0; }
+.live-blog__status { font-size: 12px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.08em; }
+.live-blog__status--live { color: #DC2626; animation: modern-pulse 1.5s infinite; }
+.live-blog__status--ended { color: #059669; }
+.live-blog__status--upcoming { color: #F59E0B; }
+.live-blog__entries { max-height: 500px; overflow-y: auto; padding: 16px 24px; }
+.live-entry { display: flex; gap: 16px; padding: 16px 0; border-bottom: 1px solid var(--modern-border-2, #f0f0f0); }
+.live-entry:last-child { border-bottom: none; }
+.live-entry__time {
+    flex-shrink: 0; font-size: 12px; font-weight: 700; color: var(--color-primary);
+    min-width: 70px; padding-top: 2px;
+}
+.live-entry__content { font-size: 14px; line-height: 1.6; color: var(--modern-text, #0a0a0a); }
+
+/* ---------- TABLE OF CONTENTS ---------- */
+.hikmahnews-toc {
+    background: var(--modern-surface-2, #f5f5f5); border: 1px solid var(--modern-border, #e5e5e5);
+    border-radius: 12px; padding: 20px 24px; margin: 24px 0;
+}
+.hikmahnews-toc__title { font-size: 14px; font-weight: 700; margin-bottom: 12px; }
+.hikmahnews-toc__list { padding-left: 20px; margin: 0; }
+.hikmahnews-toc__list li { margin-bottom: 6px; font-size: 14px; }
+.hikmahnews-toc__list a { color: var(--modern-text-2, #525252); }
+.hikmahnews-toc__list a:hover { color: var(--color-primary); }
+
+/* ---------- POLLS ---------- */
+.hikmahnews-poll {
+    background: var(--modern-surface-2, #f5f5f5); border-radius: 12px; padding: 24px; margin: 24px 0;
+}
+.hikmahnews-poll__question { font-size: 16px; font-weight: 700; margin-bottom: 16px; }
+.hikmahnews-poll__option {
+    display: flex; align-items: center; width: 100%; text-align: left; padding: 12px 16px; margin-bottom: 8px;
+    border: 1px solid var(--modern-border, #e5e5e5); border-radius: 8px; background: var(--modern-surface, #fff);
+    cursor: pointer; position: relative; overflow: hidden; transition: all 0.2s; font-size: 14px;
+    min-height: 44px; box-sizing: border-box;
+}
+.hikmahnews-poll__option:hover { border-color: var(--color-primary); }
+.hikmahnews-poll__option.voted { cursor: default; }
+.hikmahnews-poll__bar {
+    position: absolute; top: 0; left: 0; height: 100%; background: var(--color-primary-light, #fee2e2);
+    z-index: 0; transition: width 0.5s ease; max-width: 100%;
+}
+.hikmahnews-poll__label { position: relative; z-index: 1; flex: 1; }
+.hikmahnews-poll__pct { position: relative; z-index: 1; font-weight: 700; font-size: 13px; margin-left: 8px; }
+.hikmahnews-poll__meta { font-size: 12px; color: var(--modern-text-3, #a3a3a3); }
+
+/* ---------- PODCAST PLAYER ---------- */
+.podcast-player {
+    background: var(--modern-surface, #fff); border: 1px solid var(--modern-border, #e5e5e5);
+    border-radius: 12px; padding: 16px; margin: 24px 0;
+}
+.podcast-player__info { display: flex; align-items: center; gap: 12px; margin-bottom: 12px; }
+.podcast-player__icon { font-size: 24px; }
+.podcast-player__title { font-size: 14px; font-weight: 700; margin: 0; }
+.podcast-player__duration { font-size: 12px; color: var(--modern-text-3, #a3a3a3); }
+.podcast-player__audio { width: 100%; }
+
+/* ---------- AI SUGGESTIONS ---------- */
+.ai-suggestions-wrap { margin-top: 40px; }
+.ai-suggestions { margin-top: 24px; }
+.ai-suggestions__title { font-size: 22px; font-weight: 800; margin-bottom: 24px; }
+.ai-suggestions .news-card { height: 100%; }
+
+/* ---------- CO-AUTHORS ---------- */
+.coauthors {
+    display: flex; align-items: center; gap: 6px; flex-wrap: wrap;
+    font-size: 13px; color: var(--modern-text-2, #525252); margin-bottom: 8px;
+}
+.coauthors__label { font-weight: 700; }
+
+/* ---------- RESPONSIVE ---------- */
+@media (max-width: 768px) {
+    .ai-suggestions .modern-grid { grid-template-columns: 1fr 1fr !important; }
+}
+@media (max-width: 480px) {
+    .ai-suggestions .modern-grid { grid-template-columns: 1fr !important; }
+    .live-entry { flex-direction: column; gap: 4px; }
+}

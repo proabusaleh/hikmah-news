@@ -76,6 +76,23 @@ function hikmahnews_options_tab_general($options) {
                    Show scroll-to-top button</label>
         </td>
     </tr>
+    <tr>
+        <th>Design Style</th>
+        <td>
+            <select name="hikmahnews_general_design_style">
+                <option value="modern" <?php selected($o['design_style'] ?? 'modern', 'modern'); ?>>
+                    ✨ Modern (Bento + Glassmorphism)
+                </option>
+                <option value="classic" <?php selected($o['design_style'] ?? '', 'classic'); ?>>
+                    📰 Classic (Traditional News)
+                </option>
+                <option value="minimal" <?php selected($o['design_style'] ?? '', 'minimal'); ?>>
+                    ◻️ Minimal (Clean Editorial)
+                </option>
+            </select>
+            <p class="description">Choose the overall design language for your site.</p>
+        </td>
+    </tr>
     <?php
 }
 

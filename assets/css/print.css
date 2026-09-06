@@ -1,0 +1,24 @@
+/* ============================================
+   PRINT STYLES — Clean Article Printing
+   ============================================ */
+@media print {
+    *, *::before, *::after { background: transparent !important; color: black !important; box-shadow: none !important; text-shadow: none !important; }
+    body { font-size: 12pt; line-height: 1.5; }
+    .topbar, .site-header, .main-nav, .breaking-alert, .breaking-ticker,
+    .reading-progress, .modern-progress, .back-to-top, .font-size-toggle,
+    .cookie-consent, .notification-prompt, .hikmahnews-ad, .single-share,
+    .bookmark-btn, .modern-article__actions, .author-box, .related-section,
+    .modern-related, .comments-section, .site-footer, .mobile-drawer,
+    .mobile-overlay, .search-overlay, .live-search-overlay, .sidebar,
+    .cat-nav, .modern-ticker, .modern-newsletter, .hero-bento { display: none !important; }
+    .container { max-width: 100%; padding: 0; }
+    .modern-article__header { padding: 0; border: none; }
+    .modern-article__title { font-size: 24pt; }
+    .modern-prose { font-size: 11pt; }
+    .modern-prose img { max-width: 100%; page-break-inside: avoid; }
+    .modern-prose h2, .modern-prose h3 { page-break-after: avoid; }
+    a { text-decoration: underline; }
+    a[href^="http"]::after { content: " (" attr(href) ")"; font-size: 9pt; color: #666; }
+    .single-featured-image img, .modern-article__hero-image img { max-height: 300px; }
+    @page { margin: 2cm; }
+}

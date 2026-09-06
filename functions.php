@@ -2,7 +2,7 @@
 /**
  * Hikmah News Theme - Main Functions
  * @package HikmahNews
- * @version 2.1.0
+ * @version 3.0.0
  */
 
 if (!defined('ABSPATH')) exit;
@@ -10,9 +10,9 @@ if (!defined('ABSPATH')) exit;
 // ============================================
 // 1. THEME CONSTANTS
 // ============================================
-define('HIKMAHNEWS_VERSION', '2.1.0');
-define('HIKMAHNEWS_DIR', get_template_directory());
-define('HIKMAHNEWS_URI', get_template_directory_uri());
+define('HIKMAHNEWS_VERSION', '3.0.0');
+define('HIKMAHNEWS_DIR', dirname(__FILE__));
+define('HIKMAHNEWS_URI', get_stylesheet_directory_uri());
 
 // ============================================
 // 2. THEME SETUP
@@ -213,9 +213,99 @@ require_once HIKMAHNEWS_DIR . '/inc/gutenberg/block-patterns.php';
 require_once HIKMAHNEWS_DIR . '/inc/security.php';
 
 // ============================================
+// ADVANCED FEATURES (Phase 14)
+// ============================================
+require_once HIKMAHNEWS_DIR . '/inc/cookie-consent.php';
+require_once HIKMAHNEWS_DIR . '/inc/accessibility.php';
+require_once HIKMAHNEWS_DIR . '/inc/font-size-toggle.php';
+require_once HIKMAHNEWS_DIR . '/inc/pwa.php';
+require_once HIKMAHNEWS_DIR . '/inc/paywall.php';
+require_once HIKMAHNEWS_DIR . '/inc/live-blog.php';
+require_once HIKMAHNEWS_DIR . '/inc/widgets-extra.php';
+require_once HIKMAHNEWS_DIR . '/inc/engagement.php';
+require_once HIKMAHNEWS_DIR . '/inc/advanced-features.php';
+require_once HIKMAHNEWS_DIR . '/inc/community.php';
+require_once HIKMAHNEWS_DIR . '/inc/integrations.php';
+require_once HIKMAHNEWS_DIR . '/inc/premium.php';
+
+// ============================================
+// ANALYTICS DASHBOARD (Phase 15)
+// ============================================
+require_once HIKMAHNEWS_DIR . '/inc/analytics-dashboard.php';
+
+// ============================================
+// FEATURE ASSETS (Print + Component CSS)
+// ============================================
+function hikmahnews_enqueue_feature_assets() {
+    // Feature component styles (paywall, live blog, TOC, polls, etc.)
+    wp_enqueue_style(
+        'hikmahnews-features',
+        HIKMAHNEWS_URI . '/assets/css/features.css',
+        ['hikmahnews-main'],
+        HIKMAHNEWS_VERSION
+    );
+
+    // Print stylesheet (only emitted for print media)
+    wp_enqueue_style(
+        'hikmahnews-print',
+        HIKMAHNEWS_URI . '/assets/css/print.css',
+        [],
+        HIKMAHNEWS_VERSION,
+        'print'
+    );
+}
+add_action('wp_enqueue_scripts', 'hikmahnews_enqueue_feature_assets');
+
+// ============================================
 // TRANSLATION (Phase 13)
 // ============================================
 function hikmahnews_load_textdomain() {
     load_theme_textdomain('hikmahnews', HIKMAHNEWS_DIR . '/languages');
 }
 add_action('after_setup_theme', 'hikmahnews_load_textdomain');
+
+// ============================================
+// MODERN TEMPLATE SUPPORT
+// ============================================
+function hikmahnews_enqueue_modern_assets() {
+    $style = hikmahnews_option('general', 'design_style', 'modern');
+
+    if ($style === 'modern') {
+        wp_enqueue_style(
+            'hikmahnews-modern',
+            HIKMAHNEWS_URI . '/assets/css/modern.css',
+            ['hikmahnews-main'],
+            HIKMAHNEWS_VERSION
+        );
+    }
+}
+add_action('wp_enqueue_scripts', 'hikmahnews_enqueue_modern_assets');
+
+// Auto-select modern template for front page
+function hikmahnews_modern_front_page($template) {
+    if (is_front_page() && hikmahnews_option('general', 'design_style', 'modern') === 'modern') {
+        $modern = locate_template('front-page-modern.php');
+        if ($modern) return $modern;
+    }
+    return $template;
+}
+add_filter('template_include', 'hikmahnews_modern_front_page');
+
+// Auto-select modern single template
+function hikmahnews_modern_single($template) {
+    if (is_single() && hikmahnews_option('general', 'design_style', 'modern') === 'modern') {
+        $modern = locate_template('single-modern.php');
+        if ($modern) return $modern;
+    }
+    return $template;
+}
+add_filter('template_include', 'hikmahnews_modern_single');
+
+// Disable classic progress bar (single-modern.php has its own)
+function hikmahnews_modern_disable_classic_progress() {
+    if (hikmahnews_option('general', 'design_style', 'modern') === 'modern') {
+        remove_action('wp_body_open', 'hikmahnews_reading_progress_bar', 5);
+        remove_action('wp_enqueue_scripts', 'hikmahnews_reading_progress_script');
+    }
+}
+add_action('init', 'hikmahnews_modern_disable_classic_progress');

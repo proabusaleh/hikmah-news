@@ -177,6 +177,8 @@ if (is_singular()) {
                 </div>
             </header>
 
+            <?php do_action('hikmahnews_before_content'); ?>
+
             <!-- ===== FEATURED IMAGE ===== -->
             <?php if (has_post_thumbnail()) : ?>
                 <figure class="single-featured-image">
@@ -237,6 +239,7 @@ if (is_singular()) {
 
     <!-- ===== AUTHOR BOX ===== -->
     <?php get_template_part('template-parts/content/author-box'); ?>
+    <?php do_action('hikmahnews_after_author_box'); ?>
 
     <!-- ===== PREVIOUS / NEXT ===== -->
     <?php get_template_part('template-parts/content/post-nav'); ?>

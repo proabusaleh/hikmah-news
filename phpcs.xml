@@ -1,0 +1,32 @@
+<?xml version="1.0"?>
+<ruleset name="Hikmah News Theme">
+    <description>WordPress Coding Standards for the Hikmah News Theme</description>
+
+    <!-- Scan these directories -->
+    <file>.</file>
+    <exclude-pattern>/vendor/*</exclude-pattern>
+    <exclude-pattern>/node_modules/*</exclude-pattern>
+    <exclude-pattern>/assets/*</exclude-pattern>
+
+    <!-- Use WordPress standards -->
+    <rule ref="WordPress">
+        <!-- Allow short array syntax -->
+        <exclude name="Universal.Arrays.DisallowShortArraySyntax"/>
+        <!-- Allow short echo tags in templates -->
+        <exclude name="Generic.PHP.DisallowShortOpenTag.EchoFound"/>
+    </rule>
+
+    <!-- Text domain -->
+    <rule ref="WordPress.WP.I18n">
+        <properties>
+            <property name="text_domain" type="array" value="hikmahnews"/>
+        </properties>
+    </rule>
+
+    <!-- Prefix -->
+    <rule ref="WordPress.NamingConventions.PrefixAllGlobals">
+        <properties>
+            <property name="prefixes" type="array" value="hikmahnews,HikmahNews,HIKMAHNEWS"/>
+        </properties>
+    </rule>
+</ruleset>
